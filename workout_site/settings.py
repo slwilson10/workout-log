@@ -71,6 +71,26 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'workout_site.wsgi.application'
 
+# Logging
+#LOGGING = {
+#    'version': 1,
+#    'disable_existing_loggers': False,
+#    'handlers': {
+#        'console': {
+#            'level': 'DEBUG',
+#            'class': 'logging.StreamHandler',
+#        },
+#        'logfile': {
+#            'level':'DEBUG',
+#            'class':'logging.FileHandler',
+#            'filename': BASE_DIR + "/../logfile",
+#        },
+#    },
+#    'root': {
+#        'level': 'INFO',
+#        'handlers': ['console', 'logfile']
+#    },
+#}
 
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
