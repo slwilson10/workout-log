@@ -1,6 +1,8 @@
 {% extends 'index.html' %}
 {% block content %}
-    <div> 
+{% csrf_token %} 
+    
+<div> 
         <table border='1' style='width:80%; margin:auto; padding:5px;'>
             <thead>
                 <tr>
@@ -15,18 +17,31 @@
             </thead>
             <tbody>
                 {% for w in workouts %}
-                <tr>
-                    <td>{{w.date}}</td>
-                    <td>{{w.name}}</td>
-                    <td>{{w.calories}}</td>
-                    <td>{{w.heartrate}}</td>
-                    <td>{{w.hours}}:{{w.minutes}}:{{w.seconds}}</td>
-                    <td>{{w.peak}}|{{w.cardio}}|{{w.fatburn}}</td>
-                    <td>{{w.distance}}</td>
-                </tr>
-                {%endfor%}
+                    <tr>
+                        <td>{{ w.date }}</td>
+                        <td>{{w.name}}</td>
+                        <td>{{w.calories}}</td>
+                        <td>{{w.heartrate}}</td>
+                        <td>{{w.hours}}:{{w.minutes}}:{{w.seconds}}</td>
+                        <td>{{w.peak}}|{{w.cardio}}|{{w.fatburn}}</td>
+                        <td>{{w.distance}}</td>
+                    </tr>
+                {% for form in formset %}
+                    <tr>            
+                        <td>Date: {{form.date}}</td>
+                        <td>Name: {{form.name}}</td>
+                        <td>Calories: {{form.calories}}</td>
+                        <td>Heartrate: {{form.heartrate}}</td>
+                        <td>Duration: {{form.hours}}:{{form.minutes}}:{{form.seconds}}</td>
+                        <td>Zones: {{form.peak}}|{{form.cardio}}|{{form.fatburn}}</td>
+                        <td>Distance: {{form.distance}}</td>
+                    </tr>
+                {% endfor %}
+                {% endfor %}
+                
             </tbody>
         </table>
+        <!-- This is a test -->        
     </div>
 
 
