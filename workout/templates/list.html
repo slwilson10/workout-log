@@ -18,16 +18,18 @@
             <tbody>
                 {% for w in workouts %}
                     <tr>
-                        <td>{{ w.date }}</td>
+                        <td>{{w.date}}</td>
                         <td>{{w.name}}</td>
                         <td>{{w.calories}}</td>
                         <td>{{w.heartrate}}</td>
                         <td>{{w.hours}}:{{w.minutes}}:{{w.seconds}}</td>
                         <td>{{w.peak}}|{{w.cardio}}|{{w.fatburn}}</td>
                         <td>{{w.distance}}</td>
+                        <td><div class='workout-edit'>Update</div>
+                            <div class='workout-delete' id='{{w.id}}'>Delete</div></td> 
                     </tr>
                 {% for form in formset %}
-                    <tr>            
+                    <tr style="display:none;">            
                         <td>Date: {{form.date}}</td>
                         <td>Name: {{form.name}}</td>
                         <td>Calories: {{form.calories}}</td>
@@ -35,6 +37,7 @@
                         <td>Duration: {{form.hours}}:{{form.minutes}}:{{form.seconds}}</td>
                         <td>Zones: {{form.peak}}|{{form.cardio}}|{{form.fatburn}}</td>
                         <td>Distance: {{form.distance}}</td>
+                        <td><div class='cancel-edit'>X</div></td>
                     </tr>
                 {% endfor %}
                 {% endfor %}

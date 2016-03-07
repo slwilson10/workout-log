@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.forms import ModelForm
 from django.forms import TextInput
 from django.forms import formset_factory
-
+import json
 from .models import Workout
 
 class WorkoutForm(ModelForm):
@@ -36,7 +36,8 @@ def delete(request, pk):
     workout = get_object_or_404(Workout, pk=pk)
     if request.method == 'DELETE':
         workout.delete()
-        return redirect('list')
+        data = {'Delete':'ok'}
+        return HttpResponse(json.dumps(data), content_type='application/json')
     return redirect('list')
 
 def update(request, pk):

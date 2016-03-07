@@ -1,9 +1,16 @@
 $(document).ready(function() {
-    $('.workout-edit').click(function(e)){
+    $('.workout-edit').click(function(){
+        $(this).closest('tr').next().show();
+    });
+    $('.cancel-edit').click(function(){
+        $(this).closest('tr').hide();
+    });   
+
+    $('.workout-update').click(function(e){
         e.preventDefault();
         var csrftoken=getCookie('csrftoken');
         $.ajax({
-            url : window.location.href,
+            url : "update/",
             type : 'POST',
             data : {
                 name : name,
@@ -12,25 +19,27 @@ $(document).ready(function() {
             error : function() {console.log('Fail!')}
         
         });
-    };
+    });
 
-    $('.workout_delete').click(function(e)){
+    $('.workout-delete').click(function(e){
         e.preventDefault();
+        var csrftoken=getCookie('csrftoken');
         var pk = $(this).attr('id');
         if (confirm('Delete this workout?')==true){
             $.ajax({
-                url : "delete/",
-                type : "DELETE",
-                data : {},
+                beforeSend: function(xhr) {
+                        xhr.setRequestHeader("X-CSRFToken", csrftoken); },
+                url :"delete/" + pk,
+                type : "DELETE",        
+                success : function() { console.log('Success!')},
+                error : function() { console.log ('Fail!')},
             });
-        
-        success : function() { console.log('Success!')};
-        error : function() { console.log ('Fail!')};
+            $(this).closest('tr').hide();
         } 
         else {
             return false;
         }
-    };
+    });
     
     //For getting CSRF token
     function getCookie(name) {
