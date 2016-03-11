@@ -5,20 +5,23 @@ $(document).ready(function() {
     $('.cancel-edit').click(function(){
         $(this).closest('tr').hide();
     });   
-
-    $('.workout-update').click(function(e){
+    
+    $('form').submit(function(e){
         e.preventDefault();
+        var form = $(this);
         var csrftoken=getCookie('csrftoken');
         $.ajax({
-            url : "update/",
-            type : 'POST',
-            data : {
-                name : name,
-            },
-            success : function() {console.log('Success!')},
-            error : function() {console.log('Fail!')}
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken); },
+            url :  'edit/',
+            type : 'POST', 
+            cache: 'false',      
+            data : form.serialize(),
+            success : function() {console.log(form.serialize())},
+            error : function() {console.log(form.serialize())}
         
         });
+        return false;
     });
 
     $('.workout-delete').click(function(e){

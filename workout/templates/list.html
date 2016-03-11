@@ -1,51 +1,48 @@
 {% extends 'index.html' %}
 {% block content %}
-{% csrf_token %} 
-    
-<div> 
-        <table border='1' style='width:80%; margin:auto; padding:5px;'>
-            <thead>
-                <tr>
-                    <td>Date</td>
-                    <td>Name</td>
-                    <td>Calories</td>
-                    <td>Heartrate</td>
-                    <td>Duration</td>
-                    <td>Zones</td>
-                    <td>Distance</td>
-                </tr>
-            </thead>
-            <tbody>
-                {% for w in workouts %}
-                    <tr>
-                        <td>{{w.date}}</td>
-                        <td>{{w.name}}</td>
-                        <td>{{w.calories}}</td>
-                        <td>{{w.heartrate}}</td>
-                        <td>{{w.hours}}:{{w.minutes}}:{{w.seconds}}</td>
-                        <td>{{w.peak}}|{{w.cardio}}|{{w.fatburn}}</td>
-                        <td>{{w.distance}}</td>
-                        <td><div class='workout-edit'>Update</div>
-                            <div class='workout-delete' id='{{w.id}}'>Delete</div></td> 
-                    </tr>
-                {% for form in formset %}
-                    <tr style="display:none;">            
-                        <td>Date: {{form.date}}</td>
-                        <td>Name: {{form.name}}</td>
-                        <td>Calories: {{form.calories}}</td>
-                        <td>Heartrate: {{form.heartrate}}</td>
-                        <td>Duration: {{form.hours}}:{{form.minutes}}:{{form.seconds}}</td>
-                        <td>Zones: {{form.peak}}|{{form.cardio}}|{{form.fatburn}}</td>
-                        <td>Distance: {{form.distance}}</td>
-                        <td><div class='cancel-edit'>X</div></td>
-                    </tr>
-                {% endfor %}
-                {% endfor %}
-                
-            </tbody>
-        </table>
-        <!-- This is a test -->        
-    </div>
+<div>   
+    <table>
+        <thead>
+            <tr>
+                <td>Date</td>
+                <td>Name</td>
+                <td>Calories</td>
+                <td>Heartrate</td>
+                <td>Zones</td>
+                <td>Duration</td>
+                <td>Distance</td>
+            </tr>
+        </thead>
+        <tbody>
+            <form method='POST' action=''>
+            {{formset.management_form}}
+            {%for form in formset%}
+            <tr>
+                <td>{{form.id.value}}</td>
+                <td>{{form.date.value}}</td>
+                <td>{{form.name.value}}</td>
+                <td>{{form.calories.value}}</td>
+                <td>{{form.heartrate.value}}</td>
+                <td>{{form.peak.value}}|{{form.cardio.value}}|{{form.fatburn.value}}</td>
+                <td>{{form.hours.value}}:{{form.minutes.value}}:{{form.seconds.value}}</td>
+                <td>{{form.distance.value}}</td>
+            </tr>
+            <tr>
+                    <td>{{form.id}}</td>
+                    <td>{{form.date}}</td>
+                    <td>{{form.name}}</td>
+                    <td>{{form.calories}}</td>
+                    <td>{{form.heartrate}}</td>
+                    <td>{{form.peak}}|{{form.cardio}}|{{form.fatburn}}</td>
+                    <td>{{form.hours}}:{{form.minutes}}:{{form.seconds}}</td>
+                    <td>{{form.distance}}</td>
+                    <td><input type='submit' value='edit'></td>
+            </tr>
+            {%endfor%}
+            </form>
+        </tbody>
+    </table>
+</div>
 
 
 

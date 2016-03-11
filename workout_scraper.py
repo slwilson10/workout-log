@@ -67,7 +67,11 @@ def get_workout(i, browser, url):
     except NoSuchElementException:
         name = 'N/A'
     try:
-        calories = stats.find_element_by_css_selector("b.total-calories").text
+        if name == 'Run':
+            calories = browser.find_element_by_xpath('/html/body/main/div/section[2]/div/div/ul/li[2]/b').text
+            calories = calories[1:]
+        else:
+            calories = stats.find_element_by_css_selector("b.total-calories").text
         if len(calories)>2:
           calories = int(calories.replace(',',''))
         else: calories=int(calories)	
@@ -77,9 +81,7 @@ def get_workout(i, browser, url):
         duration = stats.find_element_by_css_selector("b.duration").text
         if len(duration) < 7:
             duration = '00:' + duration
-        duration = duration.split(':')
-        print (duration)
-        
+        duration = duration.split(':') 
         hours=int(duration[0])
         minutes=int(duration[1])
         seconds=int(duration[2])
@@ -88,23 +90,29 @@ def get_workout(i, browser, url):
         minutes = 0
         seconds = 0
     try:
-        heartrate = int(stats.find_element_by_css_selector("b.average-heart-rate").text)
+        if name == 'Run':
+            heartrate = int(browser.find_element_by_xpath('/html/body/main/div/section[2]/div/div/ul/li[2]/b').text)
+        else:
+            heartrate = int(stats.find_element_by_css_selector("b.average-heart-rate").text)
     except NoSuchElementException:
         heartrate = 0
     try:
-        peak = browser.find_element_by_xpath("/html/body/main/div/div/div/div/div/div/section[2]/div[1]/dl/dd[1]/span").text 
+        if name == 'Run':
+            zones = browser.find_element_by_xpath('/html/body/main/div/div/div/div/div/div/section[4]/div[1]/dl')
+        peak = zones.find_element_by_css_selector("dd.peak-minutes").find_element_by_tag_name("span").text 
+        print (peak)
 
     except NoSuchElementException:
         peak = 0
     try:
-        cardio = browser.find_element_by_xpath("/html/body/main/div/div/div/div/div/div/section[2]/div[1]/dl/dd[2]/span").text
+        cardio = zones.find_element_by_css_selector("dd.cardio-minutes").find_element_by_tag_name("span").text 
+        print (cardio)
     except NoSuchElementException:
-
         cardio = 0
     try:
-        fatburn = browser.find_element_by_xpath("/html/body/main/div/div/div/div/div/div/section[2]/div[1]/dl/dd[3]/span").text
+        fatburn = zones.find_element_by_css_selector("dd.fat-burn-minutes").find_element_by_tag_name("span").text 
+        print (fatburn)       
     except NoSuchElementException:
-
         fatburn = 0
     try:
         distance = stats.find_element_by_css_selector("b.distance").text
