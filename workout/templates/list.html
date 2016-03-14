@@ -1,7 +1,8 @@
 {% extends 'index.html' %}
 {% block content %}
+
 <div>   
-    <table>
+    <table style='width:80%; margin:auto;'>
         <thead>
             <tr>
                 <td>Date</td>
@@ -14,11 +15,11 @@
             </tr>
         </thead>
         <tbody>
-            <form method='POST' action=''>
+            <form method='POST' action='edit/'>
             {{formset.management_form}}
+            {%csrf_token%}
             {%for form in formset%}
             <tr>
-                <td>{{form.id.value}}</td>
                 <td>{{form.date.value}}</td>
                 <td>{{form.name.value}}</td>
                 <td>{{form.calories.value}}</td>
@@ -26,24 +27,28 @@
                 <td>{{form.peak.value}}|{{form.cardio.value}}|{{form.fatburn.value}}</td>
                 <td>{{form.hours.value}}:{{form.minutes.value}}:{{form.seconds.value}}</td>
                 <td>{{form.distance.value}}</td>
+                <td>
+                    <div class='workout-edit'>edit</div>
+                    <div class='workout-delete' id='{{form.id.value}}'>delete</div>
+                </td>
             </tr>
-            <tr>
-                    <td>{{form.id}}</td>
-                    <td>{{form.date}}</td>
-                    <td>{{form.name}}</td>
-                    <td>{{form.calories}}</td>
-                    <td>{{form.heartrate}}</td>
-                    <td>{{form.peak}}|{{form.cardio}}|{{form.fatburn}}</td>
-                    <td>{{form.hours}}:{{form.minutes}}:{{form.seconds}}</td>
-                    <td>{{form.distance}}</td>
-                    <td><input type='submit' value='edit'></td>
-            </tr>
+            <tr style='display:none;'>
+                {{form.id}}
+                <td>{{form.date}}</td>
+                <td>{{form.name}}</td>
+                <td>{{form.calories}}</td>
+                <td>{{form.heartrate}}</td>
+                <td>{{form.peak}}|{{form.cardio}}|{{form.fatburn}}</td>
+                <td>{{form.hours}}:{{form.minutes}}:{{form.seconds}}</td>
+                <td>{{form.distance}}</td>
+                <td>
+                    <input type='submit' value='edit'>
+                    <div class='cancel-edit'>X</div>
+                </td>
+           </tr>
             {%endfor%}
             </form>
         </tbody>
     </table>
 </div>
-
-
-
 {%endblock%}

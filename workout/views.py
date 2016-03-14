@@ -26,7 +26,7 @@ def list(request):
     workouts = Workout.objects.all()
     form = WorkoutForm()
     WorkoutFormset = modelformset_factory(Workout, form=WorkoutForm,
-                         can_delete=True, can_order=True)
+                         can_delete=True, can_order=True, extra=0)
     formset = WorkoutFormset(queryset=Workout.objects.all().order_by('-date'))   
     context = {'workouts': workouts,
             'formset': formset}
@@ -44,12 +44,7 @@ def edit(request):
     WorkoutFormset = modelformset_factory(Workout, form=WorkoutForm)
     if request.method == 'POST':
         formset = WorkoutFormset(request.POST)
-        data = {'Edit':'ok'}
         if formset.is_valid():
             formset.save()
-        else: print('Not Valid')
-        return redirect('list')
-#        return HttpResponse(json.dumps(data), content_type='application/json')       
-    else:
-        print ('NOT POST')
-        return redirect('list')       
+        return redirect('/')
+    return redirect('/')

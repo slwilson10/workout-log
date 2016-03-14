@@ -91,7 +91,7 @@ def get_workout(i, browser, url):
         seconds = 0
     try:
         if name == 'Run':
-            heartrate = int(browser.find_element_by_xpath('/html/body/main/div/section[2]/div/div/ul/li[2]/b').text)
+            heartrate = int(browser.find_element_by_xpath('/html/body/main/div/div/div/div/div/div/section[3]/div[1]/dl/dd/b').text)
         else:
             heartrate = int(stats.find_element_by_css_selector("b.average-heart-rate").text)
     except NoSuchElementException:
@@ -100,18 +100,18 @@ def get_workout(i, browser, url):
         if name == 'Run':
             zones = browser.find_element_by_xpath('/html/body/main/div/div/div/div/div/div/section[4]/div[1]/dl')
         peak = zones.find_element_by_css_selector("dd.peak-minutes").find_element_by_tag_name("span").text 
-        print (peak)
+        
 
     except NoSuchElementException:
         peak = 0
     try:
         cardio = zones.find_element_by_css_selector("dd.cardio-minutes").find_element_by_tag_name("span").text 
-        print (cardio)
+        
     except NoSuchElementException:
         cardio = 0
     try:
         fatburn = zones.find_element_by_css_selector("dd.fat-burn-minutes").find_element_by_tag_name("span").text 
-        print (fatburn)       
+        
     except NoSuchElementException:
         fatburn = 0
     try:
@@ -124,12 +124,6 @@ def get_workout(i, browser, url):
     
     add_workout(datetime, name, calories, heartrate, peak, cardio, fatburn, distance, hours, minutes, seconds)
                
-               
-    # Print out what we have added to the user.
-    # for w in Workout.objects.all():
-        # print (str(w))       
-        
-
 # Start execution here!
 if __name__ == '__main__':
     print ("Starting Workouts population script...")
@@ -153,19 +147,4 @@ if __name__ == '__main__':
     browser.find_element(By.XPATH, '//*[@id="loginForm"]/div[1]/button').click()
     ids = get_ids(browser)
     populate(ids, browser, url)
-
-    
-
-
-
-
-
-    
-
-
-
-
-
-
-
 

@@ -6,8 +6,7 @@ $(document).ready(function() {
         $(this).closest('tr').hide();
     });   
     
-    $('form').submit(function(e){
-        e.preventDefault();
+    $('busta').submit(function(){
         var form = $(this);
         var csrftoken=getCookie('csrftoken');
         $.ajax({
