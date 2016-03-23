@@ -1,9 +1,9 @@
 $(document).ready(function() {
     $('.workout-edit').click(function(){
-        $(this).closest('tr').next().show();
+        $(this).closest('tr').next().fadeIn('slow');
     });
     $('.cancel-edit').click(function(){
-        $(this).closest('tr').hide();
+        $(this).closest('tr').fadeOut('slow');
     });   
     
     $('busta').submit(function(){
@@ -36,7 +36,7 @@ $(document).ready(function() {
                 success : function() { console.log('Success!')},
                 error : function() { console.log ('Fail!')},
             });
-            $(this).closest('tr').hide();
+            $(this).closest('tr').fadeOut();
         } 
         else {
             return false;

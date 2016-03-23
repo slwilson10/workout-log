@@ -1,0 +1,10 @@
+<div id='sidebar'>
+    {% for d in workout_dates %}
+    <h2>{{d.year}}</h2>
+        <ul>
+        {% for m in d.months %}
+            <li>{{m}}</li>
+        {% endfor %}
+        </ul>
+    {% endfor %}
+</div>

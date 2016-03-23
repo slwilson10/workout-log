@@ -16,15 +16,6 @@ import os
 import sys
 from decimal import Decimal
 
-
- 
-def populate(ids, browser, url):
-    for i in ids:
-        get_workout(i, browser, url)
-
-    # with open('data.txt', 'w') as outfile:
-        # json.dump(workouts, outfile, sort_keys=True, indent=4)
-
 def get_ids(browser):
     wait = WebDriverWait(browser, 10)
     element = wait.until(
@@ -43,12 +34,18 @@ def get_ids(browser):
             
     return (ids)
     
-def add_workout(datetime, name, calories, heartrate, peak, cardio, fatburn, distance, hours, minutes, seconds):
-    w = Workout.objects.get_or_create(name=name,
-        date=datetime, calories=calories, heartrate=heartrate, 
-        peak=peak, cardio=cardio, fatburn=fatburn, distance=distance, hours=hours, minutes=minutes, seconds=seconds)
+def add_workout(workout):
+    w = Workout.objects.get_or_create(name=workout[1],
+        date=workout[0], calories=workout[2], heartrate=workout[3], 
+        peak=workout[4], cardio=workout[5], fatburn=workout[6], distance=workout[7], 
+        hours=workout[8], minutes=workout[9], seconds=workout[10])
     print (str(w))
 
+def check_workout_date(workout, current_date):
+    if workout not in current_date:
+        return True
+    else: return False
+    
 ## Grabs some of the data from Activities page
 def get_workout(i, browser, url):
     ### FIND ELELEMNTS BY SLECTORS NOT DIV PLACEMENT ###
@@ -91,7 +88,8 @@ def get_workout(i, browser, url):
         seconds = 0
     try:
         if name == 'Run':
-            heartrate = int(browser.find_element_by_xpath('/html/body/main/div/div/div/div/div/div/section[3]/div[1]/dl/dd/b').text)
+            heartrate = int(browser.find_element_by_xpath(
+                            '/html/body/main/div/div/div/div/div/div/section[3]/div[1]/dl/dd/b').text)
         else:
             heartrate = int(stats.find_element_by_css_selector("b.average-heart-rate").text)
     except NoSuchElementException:
@@ -100,8 +98,6 @@ def get_workout(i, browser, url):
         if name == 'Run':
             zones = browser.find_element_by_xpath('/html/body/main/div/div/div/div/div/div/section[4]/div[1]/dl')
         peak = zones.find_element_by_css_selector("dd.peak-minutes").find_element_by_tag_name("span").text 
-        
-
     except NoSuchElementException:
         peak = 0
     try:
@@ -122,7 +118,9 @@ def get_workout(i, browser, url):
     except NoSuchElementException:
         distance = 0.00
     
-    add_workout(datetime, name, calories, heartrate, peak, cardio, fatburn, distance, hours, minutes, seconds)
+    workout=[datetime, name, calories, heartrate, peak, cardio, 
+                fatburn, distance, hours, minutes, seconds]
+    return workout 
                
 # Start execution here!
 if __name__ == '__main__':
@@ -132,12 +130,12 @@ if __name__ == '__main__':
     import django
     django.setup()
     from workout.models import Workout
-    ## Setting Scraper Variables
+    ## Set scraper variables
     url = 'https://www.fitbit.com/activities'
     email = 'slwilson10@gmail.com'
     password = 'Foreshadow3821'
 
-    ## Start Brower and Login
+    ## Start brower and login
     # chromedriver = 'C:/Users/eGenesis/Programming/python/scraper/chromedriver.exe'
     # browser = webdriver.Chrome(chromedriver)
     browser = webdriver.PhantomJS()
@@ -146,5 +144,15 @@ if __name__ == '__main__':
     browser.find_element(By.XPATH,'//*[@id="loginForm"]/fieldset/dl/dd[2]/input').send_keys(password)
     browser.find_element(By.XPATH, '//*[@id="loginForm"]/div[1]/button').click()
     ids = get_ids(browser)
-    populate(ids, browser, url)
+    current_dates = []
+    for d in Workout.objects.all().order_by('-date'):
+        datetime = d.date.strftime('%Y-%m-%dT%H:%M:%S.%f')[:-3]
+        current_dates.append(datetime)
+    count = 1 
+    for i in ids:
+        print('*' * count)
+        workout = get_workout(i, browser, url) 
+        if check_workout_date(workout[0], current_dates):
+            add_workout(workout)
+        count = count + 1
 
