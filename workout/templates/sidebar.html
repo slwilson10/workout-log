@@ -1,10 +1,13 @@
 <div id='sidebar'>
-    {% for d in workout_dates %}
-    <h2>{{d.year}}</h2>
-        <ul>
-        {% for m in d.months %}
-            <li>{{m}}</li>
+    <ul>
+        <li><a href='/list/All'>All</a></li>
+        {% for d in workout_dates %}
+        <li class='sidebar-year'>{{d.year}}</li>
+            <ul>
+            {% for m in d.months %}
+                <li class='sidebar-month'><a href='/list/{{m}}'>{{m}}</a></li>
+            {% endfor %}
+            </ul>
         {% endfor %}
-        </ul>
-    {% endfor %}
+    </ul>
 </div>

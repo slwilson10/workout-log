@@ -14,7 +14,7 @@
             </tr>
         </thead>
         <tbody id='workout-table-body'>
-            <form method='POST' action='/update/'>
+            <form method='POST' action='/update/{{month}}'>
             {{formset.management_form}}
             {%csrf_token%}
             {%for form in formset%}
