@@ -5,7 +5,7 @@
         <li class='sidebar-year'>{{d.year}}</li>
             <ul>
             {% for m in d.months %}
-                <li class='sidebar-month'><a href='/list/{{m}}'>{{m}}</a></li>
+                <li class='sidebar-month'><a href='/list/{{d.year}}/{{m}}'>{{m}}</a></li>
             {% endfor %}
             </ul>
         {% endfor %}

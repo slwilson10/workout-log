@@ -44,22 +44,55 @@ table {
     border-collapse: collapse;
     border-spacing: 0;
 }
+a {
+    text-decoration: none;
+}
 
 /*///////////////*/
 /* END CSS RESET */
 /*///////////////*/
 
+body {
+    font-family: Arial, Helvetica, sans-serif;   
+    background:#ebebeb;
+}
+
+#header {
+    padding:3%;
+    margin:auto;
+    border-bottom:2px solid #d8d8d8;
+    text-align:center;
+}
+
 #sidebar {
     float:left;
+    margin-left:0.5%;
+}
+
+#sidebar li {
+    margin-top:20%;
+}
+
+.sidebar-month{
+    margin-left:50%;
+}
+
+#content {
+}
+
+#workout-table-border {
+    width:60%;
+    margin:auto;
+    border:1px solid #d8d8d8;
+    padding:3%;
+    background:white;
 }
 
 .workout-edit, .submit-edit,
 .workout-delete {
-    border: 1px solid black;
-    border-radius: 2px;
-    float: left;
+    border:1px solid black;
+    border-radius:2px;
     padding: 3px;
-    margin: 5px;
     background-color: transparent;
 }
 
@@ -70,7 +103,7 @@ table {
 }
 
 .workout-row, .workout-form-row {
-    border-bottom: 1px solid gray;
+    border-bottom: 1px solid #d8d8d8;
     
 }
 
@@ -79,7 +112,7 @@ table {
     padding: 3% 0 3% 0;
 }
 
-.workout-row td{
+.workout-row td, #workout-table-header-row td{
     vertical-align: middle;
-    padding: 1% 0 1% 0;
+    padding: 1%;
 }
