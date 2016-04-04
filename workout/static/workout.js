@@ -42,7 +42,27 @@ $(document).ready(function() {
             return false;
         }
     });
+
+    // CHART STUFF
+    var ctx = $('#chart').get(0).getContext('2d');
     
+    var data = {
+        labels:['Jan','Feb','Mar','Apr','May','Jun','Jul'],
+        datasets:[
+            {
+                label: "Calories Burned",
+                fillColor: "rgba(220,220,220,0.5)",
+                strokeColor: "rgba(220,220,220,0.8)",
+                highlightFill: "rgba(220,220,220,0.75)",
+                highlightStroke: "rgba(220,220,220,1)",
+                data: [65, 59, 80, 81, 56, 55, 40]
+            }
+        ]          
+    };
+    
+    var workoutChart = new Chart(ctx).Bar(data); 
+    
+
     //For getting CSRF token
     function getCookie(name) {
           var cookieValue = null;
