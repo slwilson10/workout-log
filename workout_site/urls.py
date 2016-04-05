@@ -3,9 +3,10 @@ from django.contrib import admin
 import workout.views
 
 urlpatterns = [
-        url(r'^list/All/$', workout.views.all),
-        url(r'^list/(?P<year>\d+)/(?P<month>\w+)$', workout.views.month),
-        url(r'^delete/(?P<year>\d+)/(?P<month>\w+)/(?P<pk>\d+)$', workout.views.delete),
-	url(r'^update/(?P<year>\d+)/(?P<month>\w+)$', workout.views.update),
+        url(r'^$', workout.views.year),
+        url(r'^(?P<year>\d+)$', workout.views.month),
+        url(r'^(?P<year>\d+)/(?P<month>\w+)$', workout.views.workout),
+        url(r'^(?P<year>\d+)/(?P<month>\w+)/(?P<pk>\d+)/delete/$', workout.views.delete),
+	url(r'^(?P<year>\d+)/(?P<month>\w+)/update/$', workout.views.update),
     	url(r'^admin/', include(admin.site.urls)),
 ]

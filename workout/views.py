@@ -23,20 +23,19 @@ class WorkoutForm(ModelForm):
             'seconds':TextInput(attrs={'size':1}),
             'distance':TextInput(attrs={'size':2}),
         }
-def all(request):
-    workouts = Workout.objects.all()
-    month = 'All'
-    workout_dates = get_dates()
-    form = WorkoutForm()
-    WorkoutFormset = modelformset_factory(Workout, form=WorkoutForm,
-                         can_delete=True, can_order=True, extra=0)
-    formset = WorkoutFormset(queryset=workouts.order_by('-date'))   
-    context = {'workouts': workouts, 'formset': formset,
-            'workout_dates': workout_dates, 'month': month}
-    return render(request, 'list.html', context)
+def year(request):
+    years = get_years()
+    context = {'years': years}
+    return render(request, 'year.html', context)
+
+def month(request, year):
+    year = datetime.strptime(year, '%Y').year
+    months = Workout.objects.filter(date__year=year)
+    context = {'months': months}
+    return render(request, 'month.html', context)
 
 
-def month(request, year,  month):
+def workout(request, year,  month):
     year = datetime.strptime(year, '%Y').year
     month = datetime.strptime(month,'%b').month
     workouts = Workout.objects.filter(date__year=year, date__month=month)
@@ -79,6 +78,20 @@ def get_dates():
         if date not in workout_dates:
             workout_dates.append(date)
     return workout_dates
+
+def get_years():
+    years_group = []
+    years = []
+    for w in Workout.objects.all():
+        year = w.date.year
+        if year not in years:
+            years.append(year)
+    
+    for y in years:
+        workouts = len(Workout.objects.filter(date__year=y))
+        group = {'year': y,'workouts': workouts}
+        years_group.append(group)
+    return years_group
 
 def get_months(year):
     workouts = Workout.objects.filter(date__year=year)

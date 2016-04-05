@@ -1,0 +1,9 @@
+{% extends 'index.html' %}
+
+{% block content %}
+    <div id='container'>
+        {% for y in years %}
+        <div class='year-circle' workouts='{{y.workouts}}'>{{y.year}}</div>
+        {% endfor %}
+    </div>
+{% endblock %}

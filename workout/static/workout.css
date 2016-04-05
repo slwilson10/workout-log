@@ -64,6 +64,32 @@ body {
     text-align:center;
 }
 
+#container {
+    overflow: hidden;
+    width: 60%;
+    margin: auto;
+}
+
+
+.year-circle {
+    float: left;
+    margin: 2%;
+    max-width: 600px;
+    min-width: 100px;
+    width: 300px;
+    height: 300px;
+    border: 1px solid black;
+    border-radius: 50%;
+    background: white;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 300px;
+}
+
+
+
+
+
 #sidebar {
     float:left;
     margin-left:0.5%;
