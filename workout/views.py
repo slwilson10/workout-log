@@ -29,9 +29,8 @@ def year(request):
     return render(request, 'year.html', context)
 
 def month(request, year):
-    year = datetime.strptime(year, '%Y').year
-    months = Workout.objects.filter(date__year=year)
-    context = {'months': months}
+    months = get_months(year)
+    context = {'months': months, 'year': year}
     return render(request, 'month.html', context)
 
 
@@ -95,10 +94,16 @@ def get_years():
 
 def get_months(year):
     workouts = Workout.objects.filter(date__year=year)
+    months_group = []
     months = []
     for w in workouts:
-       # month = w.date.strftime('%m')
         month = w.date.strftime('%b')
         if month not in months:
             months.append(month)
-    return months
+    for m in months:
+        month=datetime.strptime(m,'%b').month
+        workouts = len(Workout.objects.filter(date__year=year,
+                        date__month=month))
+        group = {'month':m,'workouts':workouts}
+        months_group.append(group)
+    return months_group

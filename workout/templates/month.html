@@ -2,8 +2,8 @@
 
 {% block content %}
     <div id='container'>
-        {% for y in years %}
-        <a href='/{{y.year}}' class='date-circle' workouts='{{y.workouts}}'>{{y.year}}</a>
+        {% for m in months %}
+        <div class='date-circle' workouts='{{m.workouts}}'>{{m.month}}</div>
         {% endfor %}
     </div>
 {% endblock %}

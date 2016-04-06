@@ -1,4 +1,26 @@
 $(document).ready(function() {
+    
+    $('.date-circle').each(function(){
+        var amount = parseInt($(this).attr('workouts'));
+        console.log(amount+150);
+        if (amount > 200) {
+            $(this).width(amount).height(amount).css('line-height', amount+'px');
+                    
+        } else if ((amount > 10) && (amount <= 200)) {
+            amount = (amount*5)+100;
+            $(this).width(amount).height(amount).css('line-height',amount+'px');
+        
+        }  else if (amount < 10 ) {
+            amount = (amount*25)+100;
+            $(this).width(amount).height(amount).css('line-height',amount+'px');   
+        }   
+    });
+
+
+
+
+
+
     $('.workout-edit').click(function(){
         $(this).closest('tr').next().fadeIn('slow');
     });
