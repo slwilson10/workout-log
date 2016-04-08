@@ -1,20 +1,52 @@
 $(document).ready(function() {
     
-    $('.date-circle').each(function(){
+    // Create and animate date circles
+    $('.date-circle').each(function(index){
         var amount = parseInt($(this).attr('workouts'));
-        console.log(amount+150);
-        if (amount > 200) {
-            $(this).width(amount).height(amount).css('line-height', amount+'px');
-                    
-        } else if ((amount > 10) && (amount <= 200)) {
-            amount = (amount*5)+100;
-            $(this).width(amount).height(amount).css('line-height',amount+'px');
-        
-        }  else if (amount < 10 ) {
-            amount = (amount*25)+100;
-            $(this).width(amount).height(amount).css('line-height',amount+'px');   
-        }   
+        var pos = $(window).height()/2-$(this).outerHeight()/2
+        var self = this 
+        setTimeout(function(){    
+            
+            if (amount > 200) {
+                $(self).width(amount).height(amount).css('line-height', amount+'px');
+            
+            } else if ((amount > 10) && (amount <= 200)) {
+                amount = (amount*5)+100;
+                $(self).width(amount).height(amount).css('line-height',amount+'px');
+            
+            }  else if (amount < 10 ) {
+                amount = (amount*25)+100;
+                $(self).width(amount).height(amount).css('line-height',amount+'px');
+            }
+             
+            $(self).delay(300).animate({'margin': '15% auto 2% auto'}, 300)
+                .animate({'margin':'2% auto 2% auto'}, 100);       
+    
+        }, index*300);   
+    
     });
+    
+    // Animate and send to url on date circle click
+    $('.date-circle').click(function(event){
+        event.preventDefault();
+        var self = this;
+        $(self).addClass('date-circle-active').removeClass('date-circle');
+        $('.date-circle').animate({
+            'margin':'1000px auto -1000px auto',
+            'opactiy': '0'
+            }, 300, function(){
+                $(self).animate({
+                    'margin':'-1000px auto 1000px auto',
+                    'opacity':'0'
+                }, 300, function(){
+                    window.location.href = $(self).attr('href')
+                });       
+        });
+    });
+    
+    
+    
+    
 
 
 

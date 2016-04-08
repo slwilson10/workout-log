@@ -59,26 +59,46 @@ body {
 #header {
     overflow:hidden;
 }
+
 #content {
-    padding: 5% 0;
 }
 
 #header-year, #logo {
     margin: 0 1%;
     float: left;
     font-size: 10em;
+    vertical-align:middle;
 }
 
-#container {
-    width: 30%;
+#header-back {
+    margin-top: 2%;
+    float:left;
+    font-size: 5em;
+    background: white;
+    width: 80px;
+    height:80px;
+    border: 1px solid black;
+    border-radius: 50%;
+    
+}
+
+#container{
+    position: absolute;
+    padding-top:30%;
     margin:auto;
-    padding: 5% 0;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    width:40%;
+    height:100%;
+    overflow:hidden;
 }
 
 
-.date-circle {
-    float: left;
-    margin: 2%;
+.date-circle, .date-circle-active {
+    float:left;
+    margin: -1000px 2% 2% 2%;
     max-width: 600px;
     min-width: 100px;
     width: 300px;
