@@ -1,6 +1,9 @@
 <div id='header'>
     <div id='logo'>Workouts</div>
-    <div id='header-year'>{{year}}</div>
+    <div class='header-date' id='header-year'>{{year}}</div>
+    {% if month%}
+    <div class='header-date' id='header-month'>{{month}}</div>
+    {% endif %}
     {% if year %}
     <div id='header-back'></div>
     {% endif %}

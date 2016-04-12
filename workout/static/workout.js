@@ -1,58 +1,68 @@
 $(document).ready(function() {
+    // Animate date fly-in
+     $('.header-date').each(function(index){
+        // Set variable to reference self
+        var self = this 
+        // Animate each date header individually with slight delay
+        setTimeout(function(){    
+            // Animate from top of window to center
+            $(self).delay(300).animate({'margin': '0 1% 0 -2%'}, 300)
+                .animate({'margin':'0 0 0 1%'}, 100, function(){
+                    $('#header-back').animate({'margin': '1% -2%'}, 300)
+                        .animate({'margin':'1% 1%'}, 100)
+                });
+        }, index*300);   
+    });   
     
     // Create and animate date circles
     $('.date-circle').each(function(index){
+        // Get number of workouts per date
         var amount = parseInt($(this).attr('workouts'));
-        var pos = $(window).height()/2-$(this).outerHeight()/2
+        // Set variable to reference self
         var self = this 
+        // Size and animate each circle individually
+        // with slight delay
         setTimeout(function(){    
-            
+            // Size circle depending on number of workouts
             if (amount > 200) {
                 $(self).width(amount).height(amount).css('line-height', amount+'px');
-            
             } else if ((amount > 10) && (amount <= 200)) {
                 amount = (amount*5)+100;
                 $(self).width(amount).height(amount).css('line-height',amount+'px');
-            
             }  else if (amount < 10 ) {
                 amount = (amount*25)+100;
                 $(self).width(amount).height(amount).css('line-height',amount+'px');
             }
-             
-            $(self).delay(300).animate({'margin': '15% auto 2% auto'}, 300)
+            // Animate from top of window to center
+            $(self).delay(1200).animate({'margin': '15% auto 2% auto'}, 300)
                 .animate({'margin':'2% auto 2% auto'}, 100);       
-    
         }, index*300);   
-    
     });
     
     // Animate and send to url on date circle click
     $('.date-circle').click(function(event){
+        // Halt immediate url change
         event.preventDefault();
+        // Set variable to reference self
         var self = this;
+        // Single out clicked circle by changing class
         $(self).addClass('date-circle-active').removeClass('date-circle');
+        // Animate down remaining circles off screen
         $('.date-circle').animate({
             'margin':'1000px auto -1000px auto',
             'opactiy': '0'
             }, 300, function(){
+                // Animate up clicked circle off screen
                 $(self).animate({
                     'margin':'-1000px auto 1000px auto',
                     'opacity':'0'
                 }, 300, function(){
+                    // Redirect to url of clicked circle 
                     window.location.href = $(self).attr('href')
                 });       
         });
     });
     
-    
-    
-    
-
-
-
-
-
-
     $('.workout-edit').click(function(){
         $(this).closest('tr').next().fadeIn('slow');
     });
@@ -71,8 +81,7 @@ $(document).ready(function() {
             cache: 'false',      
             data : form.serialize(),
             success : function() {console.log(form.serialize())},
-            error : function() {console.log(form.serialize())}
-        
+            error : function() {console.log(form.serialize())}    
         });
         return false;
     });
@@ -96,26 +105,6 @@ $(document).ready(function() {
             return false;
         }
     });
-
-    // CHART STUFF
-    var ctx = $('#chart').get(0).getContext('2d');
-    
-    var data = {
-        labels:['Jan','Feb','Mar','Apr','May','Jun','Jul'],
-        datasets:[
-            {
-                label: "Calories Burned",
-                fillColor: "rgba(220,220,220,0.5)",
-                strokeColor: "rgba(220,220,220,0.8)",
-                highlightFill: "rgba(220,220,220,0.75)",
-                highlightStroke: "rgba(220,220,220,1)",
-                data: [65, 59, 80, 81, 56, 55, 40]
-            }
-        ]          
-    };
-    
-    var workoutChart = new Chart(ctx).Bar(data); 
-    
 
     //For getting CSRF token
     function getCookie(name) {

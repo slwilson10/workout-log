@@ -58,20 +58,21 @@ body {
 }
 #header {
     overflow:hidden;
+    width: 200%;
 }
 
 #content {
 }
 
-#header-year, #logo {
-    margin: 0 1%;
+#header-year, #header-month,
+#logo {
     float: left;
     font-size: 10em;
     vertical-align:middle;
 }
 
 #header-back {
-    margin-top: 2%;
+    margin: 0 auto 0 11000px;
     float:left;
     font-size: 5em;
     background: white;
@@ -80,6 +81,10 @@ body {
     border: 1px solid black;
     border-radius: 50%;
     
+}
+
+.header-date {
+    margin: 0 auto 0 11000px;
 }
 
 #container{
