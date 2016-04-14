@@ -1,4 +1,9 @@
 $(document).ready(function() {
+    
+    $('#header-back').click(function(){
+        window.location.href = $(self).attr('href')    
+    });
+
     // Animate date fly-in
      $('.header-date').each(function(index){
         // Set variable to reference self
@@ -7,11 +12,8 @@ $(document).ready(function() {
         setTimeout(function(){    
             // Animate from top of window to center
             $(self).delay(300).animate({'margin': '0 1% 0 -2%'}, 300)
-                .animate({'margin':'0 0 0 1%'}, 100, function(){
-                    $('#header-back').animate({'margin': '1% -2%'}, 300)
-                        .animate({'margin':'1% 1%'}, 100)
-                });
-        }, index*300);   
+                .animate({'margin':'0 0 0 1%'}, 100);
+        }, index*300);
     });   
     
     // Create and animate date circles

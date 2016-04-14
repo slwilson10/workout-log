@@ -26,22 +26,23 @@ class WorkoutForm(ModelForm):
         }
 
 ## Show year view
-def year(request):
+def year_view(request):
     years = get_years()
     context = {'years': years}
     return render(request, 'year.html', context)
 
 ## Show month view
-def month(request, year):
+def month_view(request, year):
+    print (year)
     months = get_months(year)
     context = {'months': months, 'year': year}
     return render(request, 'month.html', context)
 
 ## Show workout view
-def workout(request, year,  month):
-    year = datetime.strptime(year, '%Y').year
-    month = datetime.strptime(month,'%b').month
-    workouts = Workout.objects.filter(date__year=year, date__month=month)
+def workout_view(request, year,  month):
+    ## Get month number for model filter
+    m = datetime.strptime(month,'%b').month
+    workouts = Workout.objects.filter(date__year=year, date__month=m)
     workout_dates = get_dates()
     ## Create formset from form class
     form = WorkoutForm()
@@ -49,8 +50,8 @@ def workout(request, year,  month):
                          can_delete=True, can_order=True, extra=0)
     formset = WorkoutFormset(queryset=workouts.order_by('-date'))   
     context = {'workouts': workouts, 'formset': formset, 
-                'month': month}
-    return render(request, 'list.html', context)
+                'year':year, 'month': month}
+    return render(request, 'workout.html', context)
 
 ## Delete workout
 def delete(request, year, month, pk):
