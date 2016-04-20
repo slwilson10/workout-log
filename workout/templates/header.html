@@ -1,12 +1,12 @@
 <div id='header'>
-    <div id='logo'>Workouts</div>
+    <div id='logo'>workout log</div>
     {% if year %}
-        <div class='header-date' id='header-year'>{{year}}</div>  
         {% if month %}
+            <a href='/{{year}}' class='header-date' id='header-back'><<</a>
             <div class='header-date' id='header-month'>{{month}}</div>
-            <a href='/{{year}}' class='header-date' id='header-back'></a> 
-        {% else %}    
-            <a href="{% url 'workout.views.year_view' %}" class='header-date' id='header-back'></a>
+        {% else %}
+            <a href="{% url 'workout.views.year_view' %}" class='header-date' id='header-back'><<</a>
         {% endif %}
+        <div class='header-date' id='header-year'>{{year}}</div>  
     {% endif %} 
 </div>

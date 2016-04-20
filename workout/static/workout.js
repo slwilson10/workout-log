@@ -3,9 +3,11 @@ $(document).ready(function() {
     $('#header-back').click(function(){
         window.location.href = $(self).attr('href')    
     });
+    
+    $('#header').delay(600).animate({'width':'98%'},300);
 
     // Animate date fly-in
-     $('.header-date').each(function(index){
+   /*  $('.header-date').each(function(index){
         // Set variable to reference self
         var self = this 
         // Animate each date header individually with slight delay
@@ -14,7 +16,7 @@ $(document).ready(function() {
             $(self).delay(300).animate({'margin': '0 1% 0 -2%'}, 300)
                 .animate({'margin':'0 0 0 1%'}, 100);
         }, index*300);
-    });   
+    });*/   
     
     // Create and animate date circles
     $('.date-circle').each(function(index){
@@ -27,13 +29,22 @@ $(document).ready(function() {
         setTimeout(function(){    
             // Size circle depending on number of workouts
             if (amount > 200) {
-                $(self).width(amount).height(amount).css('line-height', amount+'px');
+                $(self).width(amount).height(amount).css(
+                    {'line-height':amount+'px',
+                    'font-size':'10em'
+                    });
             } else if ((amount > 10) && (amount <= 200)) {
                 amount = (amount*5)+100;
-                $(self).width(amount).height(amount).css('line-height',amount+'px');
+                $(self).width(amount).height(amount).css(
+                    {'line-height':amount+'px',
+                    'font-size':'6em'
+                    });
             }  else if (amount < 10 ) {
                 amount = (amount*25)+100;
-                $(self).width(amount).height(amount).css('line-height',amount+'px');
+                $(self).width(amount).height(amount).css(
+                    {'line-height':amount+'px',
+                    'font-size':'3em'
+                    });
             }
             // Animate from top of window to center
             $(self).delay(1200).animate({'margin': '15% auto 2% auto'}, 300)

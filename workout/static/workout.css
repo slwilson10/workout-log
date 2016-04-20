@@ -29,8 +29,9 @@ footer, header, hgroup, menu, nav, section {
 body {
     line-height: 1;
 }
-ol, ul {
+ol, ul, a {
     list-style: none;
+    color: white;
 }
 blockquote, q {
     quotes: none;
@@ -53,39 +54,39 @@ a {
 /*///////////////*/
 
 body {
-    font-family: Arial, Helvetica, sans-serif;   
-    background:#ebebeb;
+    font-family: 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', sans-serif;
+    background: #014cde;
+    background: -moz-linear-gradient(top,  #014cde 0%, #12a0e4 100%);
+    background: -webkit-linear-gradient(top,  #014cde 0%,#12a0e4 100%);
+    background: linear-gradient(to bottom,  #014cde 0%,#12a0e4 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#014cde', 
+        endColorstr='#12a0e4',GradientType=0 );
+    height: 100%;
+    margin: 0;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
+
 #header {
-    overflow:hidden;
     width: 250%;
+    overflow:hidden;
+    padding: 1%;
+    color: white;
+    font-size: 3em;
 }
 
-#content {
-}
-
-#header-year, #header-month,
 #logo {
-    float: left;
-    font-size: 8em;
-    vertical-align:middle;
+    float:left;
 }
+
 
 #header-back {
-    margin: 0 auto 0 11000px;
-    float:left;
-    font-size: 5em;
-    background: white;
-    width: 80px;
-    height:80px;
-    border: 1px solid black;
-    border-radius: 50%;
-    z-index: 5;
-    
 }
 
 .header-date {
-    margin: 0 auto 0 11000px;
+    float:right;
+    margin-left: 1%;
+   /* margin: 0 auto 0 11000px; */
 }
 
 #container{
@@ -104,18 +105,36 @@ body {
 
 
 .date-circle, .date-circle-active {
+    position:relative;
     float:left;
     margin: -1000px 2% 2% 2%;
     max-width: 600px;
     min-width: 100px;
     width: 300px;
     height: 300px;
-    border: 1px solid black;
+    border: 3px solid white;
     border-radius: 50%;
-    background: white;
+    background-color:rgba(0, 0, 0, 0.1);
+    color: white;
     text-align: center;
     vertical-align: middle;
     line-height: 300px;
+}
+
+.date-circle-date{
+    width:100%;
+    position:absolute;
+    left:0;
+}
+.date-circle-workouts{
+    position: absolute;
+    top: 30%;
+    width: 90%;
+    font-size: 50%;
+    line-height: 90%;
+    left:0;
+    right:0;
+    margin:auto; 
 }
 
 
