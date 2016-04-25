@@ -3,10 +3,13 @@
 {% block content %}
     <div id='container'>
         {% for m in months %}
-        <a href='/{{year}}/{{m.month}}' class='date-circle' workouts='{{m.workouts}}'>{{m.month}}
-            <div clas='date-circle-workouts'>{{m.workouts}}<br>workouts</div>
-        </a>
-                
+        <div href='/{{year}}/{{m.month}}' class='date-circle' workouts='{{m.workouts}}'>
+            <div class='date-circle-date'>{{m.month}}</div>
+            <div class='date-circle-workouts'>
+                <div class='date-circle-workouts-text'>{{m.workouts}}<br>workouts</div>
+                <div class='date-circle-workouts-bg'></div>
+            </div>
+        </div>
         {% endfor %}
     </div>
 {% endblock %}

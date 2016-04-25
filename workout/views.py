@@ -32,8 +32,7 @@ def year_view(request):
     return render(request, 'year.html', context)
 
 ## Show month view
-def month_view(request, year):
-    print (year)
+def month_view(request, year): 
     months = get_months(year)
     context = {'months': months, 'year': year}
     return render(request, 'month.html', context)

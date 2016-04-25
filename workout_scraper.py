@@ -63,8 +63,8 @@ def get_workout(i, browser, url):
     
     ## Get date
     try:
-        datetime = stats.find_element_by_tag_name('time')
-            .get_attribute('datetime')
+        datetime = stats.find_element_by_tag_name(
+        'time').get_attribute('datetime')
     except NoSuchElementException:
         datetime = datetime.datetime.now()
     
@@ -118,19 +118,19 @@ def get_workout(i, browser, url):
         if name == 'Run':
             zones = browser.find_element_by_xpath(
                 '/html/body/main/div/div/div/div/div/div/section[4]/div[1]/dl')
-        peak = zones.find_element_by_css_selector("dd.peak-minutes")
-            .find_element_by_tag_name("span").text 
+        peak = zones.find_element_by_css_selector(
+            "dd.peak-minutes").find_element_by_tag_name("span").text 
     except NoSuchElementException:
         peak = 0
     try:
-        cardio = zones.find_element_by_css_selector("dd.cardio-minutes")
-            .find_element_by_tag_name("span").text 
+        cardio = zones.find_element_by_css_selector(
+            "dd.cardio-minutes").find_element_by_tag_name("span").text 
         
     except NoSuchElementException:
         cardio = 0
     try:
-        fatburn = zones.find_element_by_css_selector("dd.fat-burn-minutes")
-            .find_element_by_tag_name("span").text 
+        fatburn = zones.find_element_by_css_selector(
+            "dd.fat-burn-minutes").find_element_by_tag_name("span").text 
         
     except NoSuchElementException:
         fatburn = 0

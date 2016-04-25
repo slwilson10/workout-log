@@ -97,7 +97,7 @@ body {
     bottom:0;
     left:0;
     right:0;
-    width:40%;
+    width:50%;
     height:100%;
     overflow:hidden;
     z-index: -5;
@@ -123,15 +123,34 @@ body {
 
 .date-circle-date{
     width:100%;
+    height: 100%;
+    top:0;
     position:absolute;
     left:0;
+    line-height: 250%;
 }
-.date-circle-workouts{
+
+.date-circle-workouts {
+    display:none;
+}
+
+.date-circle-workouts-text {
     position: absolute;
-    top: 30%;
-    width: 90%;
-    font-size: 50%;
-    line-height: 90%;
+    top: 25%;
+    width: 100%;
+    font-size:50%;
+    line-height: 110%;
+    z-index: 5;
+}
+
+.date-circle-workouts-bg{
+    position: absolute;
+    top: 0;
+    width: 98%;
+    height: 98%;
+    background-color:rgba(0, 0, 0, 0.9);
+    border: 1px solid black;
+    border-radius: 50%;
     left:0;
     right:0;
     margin:auto; 

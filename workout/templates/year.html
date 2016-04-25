@@ -5,8 +5,11 @@
         {% for y in years %}
         <div href='{{y.year}}' class='date-circle' workouts='{{y.workouts}}'>
             <div class='date-circle-date'>{{y.year}}</div>
-            <div class='date-circle-workouts'>{{y.workouts}}<br>workouts</div>
-        </div>
+                <div class='date-circle-workouts'>
+                    <div class='date-circle-workouts-text'>{{y.workouts}}<br>workouts</div>
+                    <div class='date-circle-workouts-bg'></div>
+                </div>
+            </div>
         {% endfor %}
     </div>
     
