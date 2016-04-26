@@ -26,7 +26,7 @@
 *.sql
 *.sqlite
 #*.sqlite3
-*.sqlite3_old
+*.sqlite_old
 # OS generated files #
 ######################
 .DS_Store
