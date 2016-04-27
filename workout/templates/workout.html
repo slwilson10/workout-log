@@ -1,9 +1,9 @@
 {% extends 'index.html' %}
 {% block content %}
-<div id='content'>
-<div id='workout-table-border'> 
-    <table id='workout-table' style='width:100%'>
-        <thead id='workout-table-header'>
+<div id='content'><div id='workout-table-border'> 
+    <div id='workout-table'>
+    <table style='width:98%;'>
+      <thead id='workout-table-header'>
             <tr id='workout-table-header-row'>
                 <td>Date</td>
                 <td>Name</td>
@@ -16,7 +16,7 @@
         </thead>
         <tbody id='workout-table-body'>
             <form method='POST' action='/workout/{{year}}/{{month}}/update'>
-            {{formset.management_form}}
+           {{formset.management_form}}
             {%csrf_token%}
             {%for form in formset%}
             <tr class='workout-row'>
@@ -39,7 +39,7 @@
                 <td>{{form.peak}}|{{form.cardio}}|{{form.fatburn}}</td>
                 <td>{{form.hours}}:{{form.minutes}}:{{form.seconds}}</td>
                 <td>{{form.distance}}</td>
-                <td><input class='submit-edit 'type='submit' value='submit'></td>
+                <td><input class='submit-edit 'type='submit' value='update'></td>
                 <td style='vertical-align:top; padding-top:0;'>
                     <div class='cancel-edit'>X</div>
                 </td>
@@ -48,6 +48,7 @@
             </form>
         </tbody>
     </table>
+    </div>
 </div>
 </div>
 {% endblock %}

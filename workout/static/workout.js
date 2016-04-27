@@ -1,5 +1,7 @@
 $(document).ready(function() { 
-
+    // Get size of window
+    var windowHeight = $(window).height();
+    $('#workout-table-border').height(windowHeight / 2);
     // FadeIn/Out workouts overlay on hover
     $('.date-circle').hover(function(){
         $(this).find('.date-circle-workouts').fadeIn();
@@ -8,7 +10,7 @@ $(document).ready(function() {
     });
 
     //Animate date fly-in, the lazy way
-    $('#header').delay(600).animate({'width':'98%'},300);
+    $('#header').delay(300).animate({'width':'98%'},300);
 
     // Animate date fly-in, the hard way
    /*  $('.header-date').each(function(index){
@@ -36,6 +38,7 @@ $(document).ready(function() {
         var containerWidth = $('#container').width();
         var circleWidth = Math.round(containerWidth / 6);
         var circleDem = Math.round(nmbrOfWorkouts * 2) + circleWidth;
+        console.log(circleDem)
         var fontSize = (circleDem/2.5);
         // Set variable to reference self
         var self = this 
@@ -48,19 +51,28 @@ $(document).ready(function() {
             $(self).find('.date-circle-workouts-text').css('font-size', (fontSize / 2)+'px');
 
             // Animate from top of window to center
-            $(self).delay(1200).animate({'margin': '15% auto 2% auto'}, 300)
+            $(self).animate({'margin': '15% auto 2% auto'}, 300)
                 .animate({'margin':'2% auto 2% auto'}, 100);       
         }, index*300);   
     });
+
+    // Animate workout table
+    $('#workout-table-border').slideUp(1).delay(300).slideDown("fast");
     
     // Animate and send back on back button click 
     $('#header-back').click(function(){
         // Set variable to reference self
         var self = this;
-        // Check if circles exist
-        if ($('.date-circle').length){
-            // Animate circles down off screen
-            $('.date-circle').animate({
+
+        // Animate header dates off screen
+        $('.header-date').animate({
+            'margin-top':'-10%',
+        });
+
+        // Check if circles exist or workout-table
+        if ($('.date-circle, #workout-table-border').length){
+            // Animate circles/workout table down off screen
+            $('.date-circle, #workout-table-border').animate({
                 'margin':'1000px auto -1000px auto',
                 'opactiy': '0'
                 }, 300, function(){
@@ -76,11 +88,9 @@ $(document).ready(function() {
         var self = this;
         // Single out clicked circle by changing class
         $(self).addClass('date-circle-active').removeClass('date-circle');
-        if ($('.date-circle').length == 0){
-            window.location.href = $(self).attr('href');
-        } else {
-        // Animate down remaining circles off screen
-        $('.date-circle').animate({
+        if ($('.date-circle').length) {
+            // Animate down remaining circles off screen
+            $('.date-circle').animate({
             'margin':'1000px auto -1000px auto',
             'opactiy': '0'
             }, 300, function(){
@@ -92,15 +102,22 @@ $(document).ready(function() {
                     // Redirect to url of clicked circle 
                     window.location.href = $(self).attr('href');
                 });       
-        });
-        }
+        }); 
+        } else { window.location.href = $(self).attr('href');}
     });
     
+    // Animate workout form slide down when edit button clicked 
     $('.workout-edit').click(function(){
-        $(this).closest('tr').next().fadeIn('slow');
+        var row = $(this).closest('tr').next();
+        $(row).fadeIn('slow');
+        $(row).children('td').slideUp(1).slideDown('slow');
     });
+
+    // Animate workout form slide up when cancel button clicked
     $('.cancel-edit').click(function(){
-        $(this).closest('tr').fadeOut('slow');
+        var row = $(this).closest('tr');
+        $(row).fadeOut('slow');
+        $(row).children('td').slideUp('slow');
     });   
     
     $('busta').submit(function(){
