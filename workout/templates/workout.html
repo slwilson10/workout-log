@@ -1,53 +1,58 @@
 {% extends 'index.html' %}
 {% block content %}
-<div id='content'><div id='workout-table-border'> 
-    <div id='workout-table'>
-    <table style='width:98%;'>
-      <thead id='workout-table-header'>
-            <tr id='workout-table-header-row'>
-                <td>Date</td>
-                <td>Name</td>
-                <td>Calories</td>
-                <td>Heartrate</td>
-                <td>Zones</td>
-                <td>Duration</td>
-                <td>Distance</td>
-            </tr>
-        </thead>
-        <tbody id='workout-table-body'>
-            <form method='POST' action='/workout/{{year}}/{{month}}/update'>
-           {{formset.management_form}}
-            {%csrf_token%}
-            {%for form in formset%}
-            <tr class='workout-row'>
-                <td>{{form.date.value}}</td>
-                <td>{{form.name.value}}</td>
-                <td>{{form.calories.value}}</td>
-                <td>{{form.heartrate.value}}</td>
-                <td>{{form.peak.value}}|{{form.cardio.value}}|{{form.fatburn.value}}</td>
-                <td>{{form.hours.value}}:{{form.minutes.value}}:{{form.seconds.value}}</td>
-                <td>{{form.distance.value}}</td>
-                <td><div class='workout-edit'>edit</div></td>
-                <td><div class='workout-delete' id='{{form.id.value}}'>delete</div></td>
-            </tr>
-            <tr class='workout-form-row' style='display:none;'>
-                {{form.id}}
-                <td>{{form.date}}</td>
-                <td>{{form.name}}</td>
-                <td>{{form.calories}}</td>
-                <td>{{form.heartrate}}</td>
-                <td>{{form.peak}}|{{form.cardio}}|{{form.fatburn}}</td>
-                <td>{{form.hours}}:{{form.minutes}}:{{form.seconds}}</td>
-                <td>{{form.distance}}</td>
-                <td><input class='submit-edit 'type='submit' value='update'></td>
-                <td style='vertical-align:top; padding-top:0;'>
-                    <div class='cancel-edit'>X</div>
-                </td>
-           </tr>
-            {%endfor%}
-            </form>
-        </tbody>
-    </table>
+<div id='content'>
+    
+    <div id='workout-chart-border' style='height:300px'>
+        <div id='workout-chart'></div>
+    </div>
+    <div id='workout-table-border'> 
+        <div id='workout-table'>
+        <table style='width:100%;'>
+            <thead id='workout-table-header'>
+                <tr id='workout-table-header-row'>
+                    <td>Date</td>
+                    <td>Name</td>
+                    <td>Calories</td>
+                    <td>Heartrate</td>
+                    <td>Zones</td>
+                    <td>Duration</td>
+                    <td>Distance</td>
+                </tr>
+            </thead>
+            <tbody id='workout-table-body'>
+                <form method='POST' action='/workout/{{year}}/{{month}}/update'>
+                    {{formset.management_form}}
+                    {%csrf_token%}
+                    {%for form in formset%}
+                    <tr class='workout-row'>
+                        <td>{{form.date.value}}</td>
+                        <td>{{form.name.value}}</td>
+                        <td>{{form.calories.value}}</td>
+                        <td>{{form.heartrate.value}}</td>
+                        <td>{{form.peak.value}}|{{form.cardio.value}}|{{form.fatburn.value}}</td>
+                        <td>{{form.hours.value}}:{{form.minutes.value}}:{{form.seconds.value}}</td>
+                        <td>{{form.distance.value}}</td>
+                        <td><div class='workout-edit'>edit</div></td>
+                        <td><div class='workout-delete' id='{{form.id.value}}'>delete</div></td>
+                    </tr>
+                    <tr class='workout-form-row' style='display:none;'>
+                        {{form.id}}
+                        <td>{{form.date}}</td>
+                        <td>{{form.name}}</td>
+                        <td>{{form.calories}}</td>
+                        <td>{{form.heartrate}}</td>
+                        <td>{{form.peak}}|{{form.cardio}}|{{form.fatburn}}</td>
+                        <td>{{form.hours}}:{{form.minutes}}:{{form.seconds}}</td>
+                        <td>{{form.distance}}</td>
+                        <td><input class='submit-edit 'type='submit' value='update'></td>
+                        <td style='vertical-align:top; padding-top:0;'>
+                            <div class='cancel-edit'>X</div>
+                        </td>
+                    </tr>
+                    {%endfor%}
+                </form>
+            </tbody>
+        </table>
     </div>
 </div>
 </div>

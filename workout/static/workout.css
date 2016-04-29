@@ -77,6 +77,7 @@ body {
 
 #logo {
     float:left;
+    text-shadow: 0.08em 0.08em 0.08em rgba(0, 0, 0, 0.2);
 }
 
 
@@ -86,7 +87,7 @@ body {
 .header-date {
     float:right;
     margin-left: 1%;
-   /* margin: 0 auto 0 11000px; */
+    text-shadow: 0.08em 0.08em 0.08em rgba(0, 0, 0, 0.2); 
 }
 
 #container{
@@ -112,9 +113,12 @@ body {
     min-width: 100px;
     width: 300px;
     height: 300px;
-    border: 3px solid white;
+    border: 0.3em solid white;
     border-radius: 50%;
     background-color:rgba(0, 0, 0, 0.1);
+    -webkit-box-shadow: 0.5em 0.5em 0.5em rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0.5em 0.5em 0.5em rgba(0, 0, 0, 0.2);
+    box-shadow: 0.5em 0.5em 0.5em rgba(0, 0, 0, 0.2);
     color: white;
     text-align: center;
     vertical-align: middle;
@@ -128,6 +132,7 @@ body {
     position:absolute;
     left:0;
     line-height: 250%;
+    text-shadow: 0.05em 0.05em 0.05em rgba(0, 0, 0, 0.2);
 }
 
 .date-circle-workouts {
@@ -146,8 +151,8 @@ body {
 .date-circle-workouts-bg{
     position: absolute;
     top: 0;
-    width: 98%;
-    height: 98%;
+    width: 99%;
+    height: 99%;
     background-color:rgba(0, 0, 0, 0.9);
     border: 1px solid black;
     border-radius: 50%;
@@ -176,7 +181,8 @@ body {
 #content {
 }
 
-#workout-table-border {
+#workout-table-border,
+#workout-chart-border {
     display:none;
     width:60%;
     margin:auto;
@@ -184,6 +190,9 @@ body {
     border-radius: 0.5em;
     padding:1% 1%;
     background:white;
+    -webkit-box-shadow: 0.5em 0.5em 0.5em rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0.5em 0.5em 0.5em rgba(0, 0, 0, 0.2);
+    box-shadow: 0.5em 0.5em 0.5em rgba(0, 0, 0, 0.2);
 }
 
 #workout-table {
@@ -217,5 +226,10 @@ body {
 
 .workout-row td, #workout-table-header-row td{
     vertical-align: middle;
-    padding: 1%;
+    padding: 1% 2%;
+}
+
+.workout-form-row td {
+    text-align:center;
+    vertical-align: middle;
 }

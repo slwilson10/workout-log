@@ -14,14 +14,14 @@ class WorkoutForm(ModelForm):
         fields = '__all__'
         widgets = {
             'name':TextInput(attrs={'size':5}),
-            'peak':TextInput(attrs={'size':1}),
-            'cardio':TextInput(attrs={'size':1}),
-            'fatburn':TextInput(attrs={'size':1}),
-            'calories':TextInput(attrs={'size':2}),
-            'heartrate':TextInput(attrs={'size':2}),
-            'hours':TextInput(attrs={'size':1}),
-            'minutes':TextInput(attrs={'size':1}),
-            'seconds':TextInput(attrs={'size':1}),
+            'peak':TextInput(attrs={'style':'width:1.5em'}),
+            'cardio':TextInput(attrs={'style':'width:1.5em'}),
+            'fatburn':TextInput(attrs={'style':'width:1.5em'}),
+            'calories':TextInput(attrs={'style':'width:3em'}),
+            'heartrate':TextInput(attrs={'style':'width:2em'}),
+            'hours':TextInput(attrs={'style':'width:1em'}),
+            'minutes':TextInput(attrs={'style':'width:1em'}),
+            'seconds':TextInput(attrs={'style':'width:1em'}),
             'distance':TextInput(attrs={'size':2}),
         }
 

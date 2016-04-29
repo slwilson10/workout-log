@@ -2,6 +2,7 @@ $(document).ready(function() {
     // Get size of window
     var windowHeight = $(window).height();
     $('#workout-table-border').height(windowHeight / 2);
+    
     // FadeIn/Out workouts overlay on hover
     $('.date-circle').hover(function(){
         $(this).find('.date-circle-workouts').fadeIn();
@@ -56,8 +57,9 @@ $(document).ready(function() {
         }, index*300);   
     });
 
-    // Animate workout table
-    $('#workout-table-border').slideUp(1).delay(300).slideDown("fast");
+    // Animate workout table and chart
+    var tables = $('#workout-table-border, #workout-chart-border');
+    $(tables).slideUp(1).delay(300).slideDown("fast");
     
     // Animate and send back on back button click 
     $('#header-back').click(function(){
@@ -72,9 +74,10 @@ $(document).ready(function() {
         // Check if circles exist or workout-table
         if ($('.date-circle, #workout-table-border').length){
             // Animate circles/workout table down off screen
-            $('.date-circle, #workout-table-border').animate({
-                'margin':'1000px auto -1000px auto',
-                'opactiy': '0'
+            $('.date-circle, #workout-table-border, #workout-chart-border'
+                ).animate({
+                    'margin':'1000px auto -1000px auto',
+                    'opactiy': '0'
                 }, 300, function(){
                     // Redirect to url of clicked circle 
                     window.location.href = $(self).attr('href');
