@@ -1,62 +1,47 @@
 $(document).ready(function() { 
     // Get size of window
     var windowHeight = $(window).height();
-    $('#workout-table-border').height(windowHeight / 2);
+    var windowWidth = $(window).width(); 
     
-    // FadeIn/Out workouts overlay on hover
-    $('.date-circle').hover(function(){
-        $(this).find('.date-circle-workouts').fadeIn();
-    },function(){
+    var timer;
+    $('.date-circle').hover(function() {
+        var self = $(this);
+        timer = setTimeout(function(){
+            $(self).find('.date-circle-workouts').fadeIn();    
+        }, 400);
+    }, function(){
+         clearTimeout(timer);
         $(this).find('.date-circle-workouts').fadeOut();
-    });
+      });
 
     //Animate date fly-in, the lazy way
     $('#header').delay(300).animate({'width':'98%'},300);
-
-    // Animate date fly-in, the hard way
-   /*  $('.header-date').each(function(index){
-        // Set variable to reference self
-        var self = this 
-        // Animate each date header individually with slight delay
-        setTimeout(function(){    
-            // Animate from top of window to center
-            $(self).delay(300).animate({'margin': '0 1% 0 -2%'}, 300)
-                .animate({'margin':'0 0 0 1%'}, 100);
-        }, index*300);
-    });*/   
-    
-    // Create and animate date circles
-    $('.date-circle').each(function(index){
+  
+    $('.date-circle').each(function(){ 
         // Get number of workouts per date
-        var nmbrOfWorkouts = parseInt($(this).attr('workouts'));
-        // Get Number of circles
-        var nmbrOfCircles = $('.date-circle').length;
-        // If there are more than 6 circles then expand container
-        if (nmbrOfCircles > 6 ){
-            $('#container').css('width','100%');
-        }
-        // Get width of container
-        var containerWidth = $('#container').width();
-        var circleWidth = Math.round(containerWidth / 6);
-        var circleDem = Math.round(nmbrOfWorkouts * 2) + circleWidth;
-        console.log(circleDem)
-        var fontSize = (circleDem/2.5);
-        // Set variable to reference self
-        var self = this 
-        // Size and animate each circle individually
-        // with slight delay
-        setTimeout(function(){    
-            // Size circle depending on number of workouts
-            $(self).width(circleDem).height(circleDem);
-            $(self).find('.date-circle-date').css('font-size', fontSize+'px'); 
-            $(self).find('.date-circle-workouts-text').css('font-size', (fontSize / 2)+'px');
+        var nmbrOfWorkouts = parseInt($(this).parent().attr('workouts')); 
+        // Set container width based on number of dates
+        var containerWidth = Math.round(nmbrOfWorkouts * 4) + windowWidth/10;
+        
+        if(Math.abs(containerWidth) > 512) {containerWidth=512;}
+        $(this).parent().css({'width': containerWidth, 'height': containerWidth});
 
-            // Animate from top of window to center
-            $(self).animate({'margin': '15% auto 2% auto'}, 300)
-                .animate({'margin':'2% auto 2% auto'}, 100);       
-        }, index*300);   
+        $(this).css({'line-height': containerWidth+'px'});
+        
+        $(this).find('.date-circle-date, .date-circle-workouts')
+            .css('font-size', containerWidth/2.5+'px'); 
+        
+        $(this).delay(300).animate({
+            width: containerWidth,
+            height: containerWidth,
+            opacity: 100    
+        }, function(){
+            $(this).find('.date-circle-date').fadeIn();
+        }); 
     });
-
+    
+    // Size tables
+    $('#workout-table-border').height(windowHeight / 2);
     // Animate workout table and chart
     var tables = $('#workout-table-border, #workout-chart-border');
     $(tables).slideUp(1).delay(300).slideDown("fast");
@@ -65,19 +50,20 @@ $(document).ready(function() {
     $('#header-back').click(function(){
         // Set variable to reference self
         var self = this;
-
         // Animate header dates off screen
         $('.header-date').animate({
             'margin-top':'-10%',
         });
 
-        // Check if circles exist or workout-table
+        // Check if circles/workout-table exist
         if ($('.date-circle, #workout-table-border').length){
+            $('.date-circle-date').hide();
             // Animate circles/workout table down off screen
             $('.date-circle, #workout-table-border, #workout-chart-border'
                 ).animate({
-                    'margin':'1000px auto -1000px auto',
-                    'opactiy': '0'
+                    width: 0,
+                    height: 0,
+                    opacity: 0
                 }, 300, function(){
                     // Redirect to url of clicked circle 
                     window.location.href = $(self).attr('href');
@@ -92,15 +78,20 @@ $(document).ready(function() {
         // Single out clicked circle by changing class
         $(self).addClass('date-circle-active').removeClass('date-circle');
         if ($('.date-circle').length) {
+            $(self).find('.date-circle-workouts').fadeOut();
+            $('.date-circle').find('.date-circle-date').hide();
             // Animate down remaining circles off screen
             $('.date-circle').animate({
-            'margin':'1000px auto -1000px auto',
-            'opactiy': '0'
+                width: 0,
+                height: 0,
+                opacity:0
             }, 300, function(){
+                $(self).find('.date-circle-date').delay(600).hide(0);
                 // Animate up clicked circle off screen
-                $(self).animate({
-                    'margin':'-1000px auto 1000px auto',
-                    'opacity':'0'
+                $(self).delay(600).animate({
+                    width: 0,
+                    height: 0,
+                    opacity:0 
                 }, 300, function(){
                     // Redirect to url of clicked circle 
                     window.location.href = $(self).attr('href');
@@ -121,8 +112,51 @@ $(document).ready(function() {
         var row = $(this).closest('tr');
         $(row).fadeOut('slow');
         $(row).children('td').slideUp('slow');
-    });   
-    
+    });
+
+    // Create and populate chart
+    google.charts.load('current', {packages: ['corechart', 'bar']});
+    google.charts.setOnLoadCallback(drawAnnotations);
+
+    function drawAnnotations() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('timeofday', 'Time of Day');
+        data.addColumn('number', 'Motivation Level');
+        data.addColumn('number', 'Energy Level');
+
+        data.addRows([
+            [{v: [8, 0, 0], f: '8 am'}, 1, .25],
+            [{v: [9, 0, 0], f: '9 am'}, 2, .5],
+            [{v: [10, 0, 0], f:'10 am'}, 3, 1],
+            [{v: [11, 0, 0], f: '11 am'}, 4, 2.25],
+            [{v: [12, 0, 0], f: '12 pm'}, 5, 2.25],
+            [{v: [13, 0, 0], f: '1 pm'}, 6, 3],
+            [{v: [14, 0, 0], f: '2 pm'}, 7, 4],
+            [{v: [15, 0, 0], f: '3 pm'}, 8, 5.25],
+            [{v: [16, 0, 0], f: '4 pm'}, 9, 7.5],
+            [{v: [17, 0, 0], f: '5 pm'}, 10, 10],
+        ]);
+
+    var options = {
+        width: 1000,
+        height: 300,
+        chartArea: {width: '90%',height:'85%'},
+        title: 'Motivation and Energy Level Throughout the Day',
+        annotations: {
+          alwaysOutside: true,
+          textStyle: {
+            fontSize: 14,
+            color: '#000',
+            auraColor: 'none'
+          }
+        },
+        legend: {position: 'none'}
+        };
+
+      var chart = new google.visualization.ColumnChart(document.getElementById('workout-chart'));
+      chart.draw(data, options);
+    }
+
     $('busta').submit(function(){
         var form = $(this);
         var csrftoken=getCookie('csrftoken');
