@@ -53,192 +53,19 @@ a {
 /* END CSS RESET */
 /*///////////////*/
 
-body {
+body{
     font-family: 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', sans-serif;
+    color: white;
     background: #014cde;
     background: -moz-linear-gradient(top,  #014cde 0%, #12a0e4 100%);
     background: -webkit-linear-gradient(top,  #014cde 0%,#12a0e4 100%);
     background: linear-gradient(to bottom,  #014cde 0%,#12a0e4 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#014cde', 
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#014cde', 
         endColorstr='#12a0e4',GradientType=0 );
-    height: 100%;
-    margin: 0;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-}
-
-#header {
-    width: 250%;
-    overflow:hidden;
-    padding: 1%;
-    color: white;
-    font-size: 3em;
-}
-
-#logo {
-    float:left;
-    text-shadow: 0.08em 0.08em 0.08em rgba(0, 0, 0, 0.2);
-}
-
-
-#header-back {
-}
-
-.header-date {
-    float:right;
-    margin-left: 1%;
-    text-shadow: 0.08em 0.08em 0.08em rgba(0, 0, 0, 0.2); 
-}
-
-#container{
-    width: 100%;
-    display:table;
-    margin: 10% auto;
-    text-align:center;
-}
-
-.date-circle-container{
-    position: relative;
-    display:inline-block;
-    vertical-align:middle;
-    margin: 1%;
-}
-.date-circle, .date-circle-active {
-    
-    position:absolute;
-    top:0;
-    bottom:0;
-    left:0;
-    right:0; 
-    margin:auto;
-    width: 0px;
-    height: 0px;
-    opacity: 0;
-    border: 0.3em solid white;
-    border-radius: 50%;
-    background-color:rgba(0, 0, 0, 0.1);
-    -webkit-box-shadow: 0.5em 0.5em 0.5em rgba(0, 0, 0, 0.2);
-    -moz-box-shadow: 0.5em 0.5em 0.5em rgba(0, 0, 0, 0.2);
-    box-shadow: 0.5em 0.5em 0.5em rgba(0, 0, 0, 0.2);
-    color: white;
-    text-align: center;
-    vertical-align: middle;
-    line-height: 300px;
-    -ms-transform-origin: 50% 50%; /* IE 9 */
-    -webkit-transform-origin: 50% 50%; /* Chrome, Safari, Opera */
-    transform-origin: 50% 50%;
-    overflow:hidden;
-}
-
-#date-circle:nth-child(4n+1){
-    clear:left;
-}
-
-.date-circle-date{
-    display:none;
-    position: absolute;
-    top: 0;
-    left:0;
-    width:100%;
-    height:100%;
-    text-shadow: 0.05em 0.05em 0.05em rgba(0, 0, 0, 0.2);
-}
-
-.date-circle-workouts {
-    display:none;
-    position: absolute;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-}
-
-.date-circle-workouts-text {
-    position: absolute;
-    top: 25%;
-    width: 100%;
-    font-size:50%;
-    line-height: 110%;
-    z-index: 5;
-}
-
-.date-circle-workouts-bg{
-    width: 100%;
-    height: 100%;
-    background-color:rgba(0, 0, 0, 0.9);
-    border: 1px solid black;
-    border-radius: 50%; 
-}
-
-
-
-
-
-#sidebar {
-    float:left;
-    margin-left:0.5%;
-}
-
-#sidebar li {
-    margin-top:20%;
-}
-
-.sidebar-month{
-    margin-left:50%;
-}
-
-#content {
-}
-
-#workout-table-border,
-#workout-chart-border {
-    display:none;
-    width:60%;
-    margin: 0 auto 1% auto;
-    border:1px solid #d8d8d8;
-    border-radius: 0.5em;
-    padding:1% 1%;
-    background:white;
-    -webkit-box-shadow: 0.5em 0.5em 0.5em rgba(0, 0, 0, 0.2);
-    -moz-box-shadow: 0.5em 0.5em 0.5em rgba(0, 0, 0, 0.2);
-    box-shadow: 0.5em 0.5em 0.5em rgba(0, 0, 0, 0.2);
-}
-
-#workout-table {
-    height:100%;
-    overflow-y: scroll;
-}
-
-.workout-edit, .submit-edit,
-.workout-delete {
-    border:1px solid black;
-    border-radius:2px;
-    padding: 3px;
-    background-color: transparent;
-}
-
-.cancel-edit {
-    text-align: center;
-    margin-top: 15%;
-    background-color: transparent;
-}
-
-.workout-row, .workout-form-row {
-    border-bottom: 1px solid #d8d8d8;
+    height:100vh;
+    width:100vw;
     
 }
 
-.workout-form-row td{
-    vertical-align: middle;
-    padding: 3% 0 3% 0;
-}
+#header{}
 
-.workout-row td, #workout-table-header-row td{
-    vertical-align: middle;
-    padding: 1% 2%;
-}
-
-.workout-form-row td {
-    text-align:center;
-    vertical-align: middle;
-}

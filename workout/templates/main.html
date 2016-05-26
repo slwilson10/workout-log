@@ -1,6 +1,8 @@
 {% extends 'index.html' %}
 {% block content %}
 <div id='main'>
+    <p>{{date_range.cur}}</p>
+   <p>{{date_range.past}}</p>
     <ul>
     {% for w in workouts %}
         <li>{{w.date}}:{{w.name}}</li>
