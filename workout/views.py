@@ -4,6 +4,8 @@ from django.forms import ModelForm
 from django.forms import TextInput
 from django.forms import modelformset_factory
 import json
+import time
+import datetime
 from datetime import date
 from datetime import timedelta
 from dateutil.relativedelta import relativedelta
@@ -26,20 +28,38 @@ class WorkoutForm(ModelForm):
             'seconds':TextInput(attrs={'style':'width:1em'}),
             'distance':TextInput(attrs={'size':2}),
         }
+
 ## Show workout view
-cur_date = date.today()
-past_date = cur_date+relativedelta(months=-1)
-var_date_range= (cur_date,past_date)
-def main(request, date_range=var_date_range):
-    dates_range = {'cur':date_range[0],'past':date_range[1]}
-    workouts = Workout.objects.filter(date__range=[date_range[0],date_range[1]])
+
+
+day_default = date.today()+relativedelta(days=-7)
+day_default = day_default.day
+month_default = date.today().month
+year_default = date.today().year
+def main(request, year=year_default, month=month_default,
+                    day=day_default):
+    date_cur = date.today()
+    date_past = (int(year),int(month),int(day))
+    date_past = date(*date_past)
+    past_week = date_cur+relativedelta(days=-7)
+    past_week = past_week.strftime('%Y %m %d')
+    past_month = date_cur+relativedelta(months=-1)
+    past_month = past_month.strftime('%Y %m %d')
+    past_year = date_cur+relativedelta(years=-1)
+    past_year = past_year.strftime('%Y %m %d')
+    workouts = Workout.objects.filter(date__lte=date_cur,
+                                    date__gte=date_past).order_by('-date')
     ## Create formset from form class
     form = WorkoutForm()
     WorkoutFormset = modelformset_factory(Workout, form=WorkoutForm,
                          can_delete=True, can_order=True, extra=0)
     formset = WorkoutFormset(queryset=workouts.order_by('-date'))   
     context = {'workouts': workouts, 'formset': formset,
-                'date_range':dates_range}
+                'date_cur': date_cur,
+                'past_week':past_week, 'past_month':past_month,
+                'past_year':past_year}
+    if request.is_ajax():
+        return  render(request, 'range.html', context)
     return render(request, 'main.html', context)
 
 ## Delete workout

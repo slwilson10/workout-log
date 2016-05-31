@@ -1,5 +1,7 @@
 $(document).ready(function() { 
 
+    
+
     // Create and populate chart
     google.charts.load('current', {packages: ['corechart', 'bar']});
     google.charts.setOnLoadCallback(drawAnnotations);
@@ -43,18 +45,19 @@ $(document).ready(function() {
       chart.draw(data, options);
     }
 
-    $('busta').submit(function(){
-        var form = $(this);
-        var csrftoken=getCookie('csrftoken');
+    $('.date-button').click(function(){
+        var past_date = $(this).attr('date');
+        date_str = past_date.split(' ');
+        var month = parseInt(date_str[1]);
+        var day = parseInt(date_str[2]);
+        var year = parseInt(date_str[0]); 
         $.ajax({
-            beforeSend: function(xhr) {
-                xhr.setRequestHeader("X-CSRFToken", csrftoken); },
-            url :  'edit/',
-            type : 'POST', 
-            cache: 'false',      
-            data : form.serialize(),
-            success : function() {console.log(form.serialize())},
-            error : function() {console.log(form.serialize())}    
+            url :  year+'/'+month+'/'+day+'/',
+            success : function(data){
+                console.log('Success!');
+                $('#range').html(data);
+            },
+            error : function() {console.log('Fail!')}    
         });
         return false;
     });
