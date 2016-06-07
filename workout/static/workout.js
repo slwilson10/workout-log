@@ -1,61 +1,62 @@
-$(document).ready(function() { 
-
-    
-
+$(document).ready(function() {
+ 
     // Create and populate chart
     google.charts.load('current', {packages: ['corechart', 'bar']});
-    google.charts.setOnLoadCallback(drawAnnotations);
+    google.charts.setOnLoadCallback(drawChart);
 
-    function drawAnnotations() {
+    function drawChart() {
         var data = new google.visualization.DataTable();
-        data.addColumn('timeofday', 'Time of Day');
-        data.addColumn('number', 'Motivation Level');
-        data.addColumn('number', 'Energy Level');
+        data.addColumn('date', 'Date');
+        data.addColumn('number', 'Calories');
+        var workouts = $('.workout');
+        var workoutList = [];
+        if(workouts.length < 9){var stamp = 'EEE';
+        }else{var stamp = 'MMM d';}
+        workouts.each(function(){
+            var self = $(this);
+            var date = self.attr('date');
+            date = new Date(date);  
+            workout = [date,parseInt(self.attr('cal'))];
+            workoutList.push(workout); 
+        });
+        workoutList.reverse();
+        data.addRows(workoutList);
 
-        data.addRows([
-            [{v: [8, 0, 0], f: '8 am'}, 1, .25],
-            [{v: [9, 0, 0], f: '9 am'}, 2, .5],
-            [{v: [10, 0, 0], f:'10 am'}, 3, 1],
-            [{v: [11, 0, 0], f: '11 am'}, 4, 2.25],
-            [{v: [12, 0, 0], f: '12 pm'}, 5, 2.25],
-            [{v: [13, 0, 0], f: '1 pm'}, 6, 3],
-            [{v: [14, 0, 0], f: '2 pm'}, 7, 4],
-            [{v: [15, 0, 0], f: '3 pm'}, 8, 5.25],
-            [{v: [16, 0, 0], f: '4 pm'}, 9, 7.5],
-            [{v: [17, 0, 0], f: '5 pm'}, 10, 10],
-        ]);
-
-    var options = {
-        width: 1000,
-        height: 300,
-        chartArea: {width: '90%',height:'85%'},
-        title: 'Motivation and Energy Level Throughout the Day',
-        annotations: {
-          alwaysOutside: true,
-          textStyle: {
-            fontSize: 14,
-            color: '#000',
-            auraColor: 'none'
-          }
-        },
-        legend: {position: 'none'}
+        var options = {
+            width: '100vw',
+            height: 450,
+            chartArea: {width: '90%',height:'85%'}, 
+            hAxis:{
+                format: stamp
+            },
+            annotations: {
+                alwaysOutside: true,
+                textStyle: {
+                    fontSize: 14,
+                    color: '#000',
+                    auraColor: 'none'
+                }
+            },
+            legend: {position: 'none'}
         };
 
-      var chart = new google.visualization.ColumnChart(document.getElementById('workout-chart'));
-      chart.draw(data, options);
+
+        var chart = new google.visualization.ColumnChart(document.getElementById('workout-chart'));
+        chart.draw(data, options);
     }
 
     $('.date-button').click(function(){
         var past_date = $(this).attr('date');
         date_str = past_date.split(' ');
-        var month = parseInt(date_str[1]);
-        var day = parseInt(date_str[2]);
-        var year = parseInt(date_str[0]); 
+        var month = date_str[1];
+        var day = date_str[2];
+        var year = date_str[0]; 
         $.ajax({
             url :  year+'/'+month+'/'+day+'/',
             success : function(data){
                 console.log('Success!');
-                $('#range').html(data);
+                $('#workout-list').html(data);
+                drawChart();
             },
             error : function() {console.log('Fail!')}    
         });

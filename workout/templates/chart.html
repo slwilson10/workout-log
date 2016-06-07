@@ -1,1 +1,7 @@
-<div id='workout-chart'></div>
+<ul id='workout-list'>
+{% for w in workouts %}
+    <li class='workout' date='{{w.date}}'
+        name='{{w.name}}' cal='{{w.calories}}'>{{w.date}}:{{w.name}}
+    </li>
+{% endfor %}
+</ul>

@@ -6,7 +6,8 @@
     <button type='button' class='date-button' date='{{past_week}}'>Week</button>
     <button type='button' class='date-button' date='{{past_month}}'>Month</button>
     <button type='button' class='date-button' date='{{past_year}}'>Year</button>
-    {% include 'range.html' %}
+    <div id='workout-chart'></div>
+    {% include 'chart.html' %}
 </div>
 
 {% endblock %}
