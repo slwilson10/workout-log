@@ -29,76 +29,91 @@ class WorkoutForm(ModelForm):
             'distance':TextInput(attrs={'size':2}),
         }
 
+## Returns list of days from current to past date
 def get_date_range(date_cur,date_past):
     date_range = []
+    
     while date_cur != date_past:
         date_range.append(date_cur)
         date_cur = date_cur+relativedelta(days=-1)
     date_range.append(date_cur)
     return date_range
-    
+
+
+def listify_workout_objs(workout_objs): 
+    workouts = [] 
+    for w in workout_objs:
+        workout = {
+            'date':w.date.strftime('%Y %m %d'),'name':w.name,
+            'calories':w.calories,'heartrate':w.heartrate, 
+            'peak':w.peak, 'cardio':w.cardio,'fatburn':w.fatburn, 
+            'hours':w.hours, 'minutes':w.minutes,
+            'seconds':w.seconds, 'distance':w.distance}
+        workouts.append(workout)
+    return workouts
+
+
+## Turns workout objects into workout lists of dicts   
 def get_workouts(date_range, workout_objs):
     workouts = []
-    stamp = '%Y %m %d'
-    def listify_workout_objs(workout_objs): 
-        workouts = []
-        
-        for w in workout_objs:
-            workout = {
-                'date':w.date.strftime(stamp),'name':w.name,
-                'calories':w.calories,'heartrate':w.heartrate, 
-                'peak':w.peak, 'cardio':w.cardio,'fatburn':w.fatburn, 
-                'hours':w.hours, 'minutes':w.minutes,
-                'seconds':w.seconds, 'distance':w.distance}
-            workouts.append(workout)
-        return workouts
-    
     workouts_list = listify_workout_objs(workout_objs)
+    
+    ## Loops through date_range, adds empty workouts for dates not found in workout_list
     for d in date_range:
-        workout =  next((item for item in workouts_list if item['date'] == d.strftime(stamp)), None)
+        workout =  next((item for item in workouts_list if item['date'] == d.strftime('%Y %m %d')), None)
         if workout != None:
             workouts.append(workout)
         else:
                 workouts.append({
-                    'date':d.strftime(stamp),'name':' ','calories':0,
+                    'date':d.strftime('%Y %m %d'),'name':' ','calories':0,
                     'heartrate':0, 'peak':0, 'cardio':0,
                     'fatburn':0, 'hours':0, 'minutes':0,
                     'seconds':0, 'distance':0}) 
     return workouts
 
+def main(request):
+    date_cur = date.today()
+    date_past = date.today()+relativedelta(days=-7)
+
+    past_week = date_cur+relativedelta(days=-7)
+    past_month = date_cur+relativedelta(months=-1)
+    past_year = date_cur+relativedelta(years=-1)
+
+    context = { 'date_cur': date_cur, 'date_past': date_past,
+                'past_week':past_week,
+                'past_month':past_month,
+                'past_year':past_year}
+
+    return render(request, 'main.html', context)
+
+
+## Set default date for if none is passed to chart_data view
 date_default = date.today()+relativedelta(days=-7)
 day_default = date_default.day
 month_default = date_default.month
 year_default = date_default.year
-def main(request, year=year_default, month=month_default,
+
+## Chart Data
+def chart_data(request, year=year_default, month=month_default,
                     day=day_default):
     date_cur = date.today()
-    date_past = (int(year),int(month),int(day))
-    date_past = date(*date_past)
-    date_range = get_date_range(date_cur,date_past)
-    
-    
-    past_week = date_cur+relativedelta(days=-7)
-    past_week = past_week.strftime('%Y %m %d')
-    
-    past_month = date_cur+relativedelta(months=-1)
-    past_month = past_month.strftime('%Y %m %d')
-  
-    past_year = date_cur+relativedelta(years=-1)
-    past_year = past_year.strftime('%Y %m %d')
+    date_past = date(int(year), int(month), int(day))
+    date_range = get_date_range(date_cur,date_past) 
     workout_objs = Workout.objects.filter(date__gte=date_past).order_by('-date')
-    workouts = get_workouts(date_range, workout_objs)
+    if len(date_range) > 8:
+        workouts = listify_workout_objs(workout_objs)
+    else:
+        workouts = get_workouts(date_range, workout_objs)
 
-## Create formset from form class
+    ## Create formset from form class
     form = WorkoutForm()
     WorkoutFormset = modelformset_factory(Workout, form=WorkoutForm,
                          can_delete=True, can_order=True, extra=0)
     formset = WorkoutFormset(queryset=workout_objs.order_by('-date'))   
+    
     context = {'workouts': workouts, 'formset': formset,
-                'date_cur': date_cur,
-                'past_week':past_week,
-                'past_month':past_month,
-                'past_year':past_year}
+                'date_cur': date_cur, 'date_past': date_past}
+ 
     if request.is_ajax():
         return  render(request, 'chart.html', context)
     return render(request, 'main.html', context)

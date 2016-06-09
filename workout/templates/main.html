@@ -1,13 +1,27 @@
 {% extends 'index.html' %}
 {% block content %}
-<div id='main'>
-    <p id='date_cur'>{{date_cur}}</p>
-    
-    <button type='button' class='date-button' date='{{past_week}}'>Week</button>
-    <button type='button' class='date-button' date='{{past_month}}'>Month</button>
-    <button type='button' class='date-button' date='{{past_year}}'>Year</button>
-    <div id='workout-chart'></div>
-    {% include 'chart.html' %}
+<div id='container'>
+    <div id='content'>
+        <section>
+            <header>
+                <div id='chart-date-buttons'>
+                    <button type='button' class='date-button' date='{{past_week}}'>Week</button>
+                    <button type='button' class='date-button' date='{{past_month}}'>Month</button>
+                    <button type='button' class='date-button' date='{{past_year}}'>Year</button>
+                </div>
+                <div id='chart-date-range' style='float:right;'>    
+                    <p id='date-past'>{{date_past}}</p><p>{{date_cur}}</p>
+                </div>
+            </header>
+            <article>
+                <div id='workout-chart'></div>
+                {% include 'chart.html'%}
+            </article>
+            <footer>
+                <h1>Totals:</h1>
+            </footer>
+        </section>
+    </div>
 </div>
 
 {% endblock %}
