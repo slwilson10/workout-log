@@ -1,6 +1,10 @@
 $(document).ready(function() {
     
-     function ajaxCall(past_date_div){
+        
+     function ajaxCall(past_date_div, type){
+        console.log(past_date_div);
+        console.log(type);
+        
         if(past_date_div == null){
             var past_date = new Date()
             var day = past_date.getDate()-7;
@@ -10,15 +14,23 @@ $(document).ready(function() {
             var day = past_date.getDate();
             var past_date_str = past_date_div;
         }
+
         var month = past_date.getMonth()+1;
         var year = past_date.getFullYear(); 
         var url = year+'/'+month+'/'+day+'/'
         $.ajax({
-            url :  url,
+            url : url,
             success : function(data){
+                var data_text = $('#chart-data').html(data);
+                var total_workouts = data_text.find('#total-workouts').text();
+                var total_calories = data_text.find('#total-calories').text();
+                var total_duration = data_text.find('#total-duration').text();
+                $('#total-workouts-str').text(total_workouts);
+                $('#total-calories-str').text(total_calories);               
+                $('#total-duration-str').text(total_duration);
                 $('#date-past').html(past_date_str);
                 $('#workout-list').html(data);
-                drawChart();
+                drawChart(type);
             },
             error : function() {console.log('Fail!')}    
         });
@@ -29,10 +41,10 @@ $(document).ready(function() {
     // Create and populate chart
     google.charts.load('current', {packages: ['corechart', 'bar']});
     google.charts.setOnLoadCallback(drawChart);
-    function drawChart() {
+    function drawChart(type) {
         var data = new google.visualization.DataTable();
+        
         data.addColumn('string', 'Date');
-        data.addColumn('number', 'Calories');
         var workouts = $('.workout');
         var workoutList = [];
         
@@ -55,15 +67,31 @@ $(document).ready(function() {
             
             return hTextLength
         };
-        
+
+
+        if(type == 'heartrate'){
+            data.addColumn('number', 'Heartrate');
+        }else if (type == 'duration'){
+            data.addColumn('number', 'Duration')
+        }
+        else{
+            data.addColumn('number', 'Calories');
+        }
+
         workouts.each(function(){
             var self = $(this);
             var date = self.attr('date');
+            var duration = self.attr('duration');
             date = new Date(date).toString().split(' ');
-            
+            duration = duration.toString().split(':');
+            duration = parseInt(duration[0]*3600)+parseInt(duration[1]*60+parseInt(duration[2])); 
             var dateString = getDateString(date);
-
-            workout = [dateString,parseInt(self.attr('cal'))];
+            
+            if(type== 'heartrate'){
+                workout = [dateString,parseInt(self.attr('heartrate'))]
+            }else if (type == 'duration'){
+                workout = [dateString,duration]
+            }else{workout = [dateString,parseInt(self.attr('cal'))]}
             workoutList.push(workout); 
         });
         
@@ -98,9 +126,21 @@ $(document).ready(function() {
         chart.draw(data, options);
     }
 
-    $('.date-button').click(function(){
+    $('.chart-date-button').click(function(){
+        $('.chart-date-button').removeClass('chart-date-button-active');
+        $(this).addClass('chart-date-button-active');
         var past_date_div= $(this).attr('date');
-        ajaxCall(past_date_div);
+        var stat = $('.chart-stat-button-active').attr('stat');
+        ajaxCall(past_date_div, stat);
+        return false;
+    });
+
+    $('.chart-stat-button').click(function(){
+        $('.chart-stat-button').removeClass('chart-stat-button-active');
+        $(this).addClass('chart-stat-button-active');
+        var stat = $(this).attr('stat');
+        var past_date_div = $('.chart-date-button-active').attr('date');
+        ajaxCall(past_date_div, stat);
         return false;
     });
 

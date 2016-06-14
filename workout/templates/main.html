@@ -5,20 +5,56 @@
         <section>
             <header>
                 <div id='chart-date-buttons'>
-                    <button type='button' class='date-button' date='{{past_week}}'>Week</button>
-                    <button type='button' class='date-button' date='{{past_month}}'>Month</button>
-                    <button type='button' class='date-button' date='{{past_year}}'>Year</button>
+                    <button type='button' 
+                        class='chart-date-button chart-date-button-active' date='{{past_week}}'>week</button>
+                    <button type='button' class='chart-date-button' date='{{past_month}}'>month</button>
+                    <button type='button' class='chart-date-button' date='{{past_year}}'>year</button>
                 </div>
-                <div id='chart-date-range' style='float:right;'>    
-                    <p id='date-past'>{{date_past}}</p><p>{{date_cur}}</p>
+                <div id='chart-date-range' style='float:right;width:30%;'>    
+                    <div class='chart-date-range-group'><<</div>                    
+                        <div class='chart-date-range-group'> 
+                            <p id='date-past'>{{date_past}}</p>
+                            <p>&nbsp - &nbsp</p>
+                            <p>{{date_cur}}</p>
+                        </div>
+                    <div class='chart-date-range-group'>>></div>
                 </div>
             </header>
             <article>
+                <header>
+                    <div id='chart-type-buttons'>
+                        <button type='button' class='chart-stat-button chart-stat-button-active' stat='calories'>
+                            calories</button>
+                        <button type='button' class='chart-stat-button' stat='heartrate'>
+                            heartrate</button>
+                        <button type='button' class='chart-stat-button' stat='duration'>
+                            duration</button>
+                    </div>
+                </header>
                 <div id='workout-chart'></div>
                 {% include 'chart.html'%}
             </article>
             <footer>
-                <h1>Totals:</h1>
+                <div id='totals'>
+                <div id='totals-list'>
+                <h2>Totals:</h2>
+                <div id='totals-stats'>    
+                    <ul>
+                        <li>
+                            <span id='total-workouts-str'>{{total_workouts}}</span>
+                            <span>workouts</span>
+                        <li>
+                            <span id='total-calories-str'>{{total_calories}}</span>
+                            <span>calories</span>
+                        </li>
+                        <li>
+                            <span id='total-duration-str'>{{total_duration}}</span>
+                            <span>duration</span>
+                        </li>
+                    </ul>
+                </div>
+                </div>
+                </div>
             </footer>
         </section>
     </div>

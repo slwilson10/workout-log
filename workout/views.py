@@ -71,6 +71,26 @@ def get_workouts(date_range, workout_objs):
                     'seconds':0, 'distance':0}) 
     return workouts
 
+def get_total(workouts, field):
+    if field == 'duration':
+        times = []
+        total = timedelta(0,0)
+        for w in workouts:
+            hours = int(w.get('hours', None))
+            minutes = int(w.get('minutes', None))
+            seconds = int(w.get('seconds', None))
+            time = timedelta(0, (hours*3600+minutes*60+seconds))
+            times.append(time)
+        for t in times:
+            total = total+t   
+        return total       
+    else:
+        total = 0
+        for w in workouts:
+            count = int(w.get(field, None))
+            total = total + count
+    return total
+
 def main(request):
     date_cur = date.today()
     date_past = date.today()+relativedelta(days=-7)
@@ -104,6 +124,11 @@ def chart_data(request, year=year_default, month=month_default,
         workouts = listify_workout_objs(workout_objs)
     else:
         workouts = get_workouts(date_range, workout_objs)
+    
+    ## Get Totals for each field
+    total_workouts = len(workout_objs)
+    total_calories = get_total(workouts, 'calories')
+    total_duration = get_total(workouts, 'duration')
 
     ## Create formset from form class
     form = WorkoutForm()
@@ -112,7 +137,9 @@ def chart_data(request, year=year_default, month=month_default,
     formset = WorkoutFormset(queryset=workout_objs.order_by('-date'))   
     
     context = {'workouts': workouts, 'formset': formset,
-                'date_cur': date_cur, 'date_past': date_past}
+                'date_cur': date_cur, 'date_past': date_past,
+                'total_calories': total_calories, 'total_workouts': total_workouts,
+                'total_duration': total_duration}
  
     if request.is_ajax():
         return  render(request, 'chart.html', context)

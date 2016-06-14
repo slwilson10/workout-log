@@ -78,7 +78,9 @@ body{
     border: 1px solid #b8b8b8;
 }
 
-#content section header{
+#content section header,
+#content section footer,
+.chart-date-range-group {
     background: #F3F3F3;
     border: 1px solid #DEDEDE;
     border-radius: 5px;
@@ -86,7 +88,68 @@ body{
     
 }
 
-#chart-date-buttons, #chart-date-range {
+#content section footer {
+    font-size: 1.5em;
+}
+
+#content article header{
+    background: #F6F6F6;
+    border: none;
+}
+
+#chart-date-buttons {
+    width:50%;
+}
+
+.chart-date-button,
+.chart-stat-button {
+    border: none;
+    background: #BFBFBF;
+    color: white;
+    font-size: 2em;
+    padding: 0.5% 3%;
+}
+
+.chart-date-button-active,
+.chart-stat-button-active{
+    background:pink;
+}
+
+#chart-type-buttons button{
+    font-size: 1.5em;
+    padding: 0.2% 1%;
+}
+
+
+#chart-date-buttons, #chart-date-range, 
+#chart-date-range div, .chart-date-range-group p{
     display: inline-block;
 }
 
+#workout-chart {
+    padding-bottom:1%;
+    border-bottom: 1px solid #D6D6D6;
+}
+
+#totals{
+    text-align:center;
+}
+
+#totals-list{
+    width:100%;
+    display:table
+}
+
+#totals-list h2,
+#totals-stats{
+    display: table-cell;
+}
+
+#totals-stats ul{
+    width:100%;
+    display:table;
+}
+
+#totals-stats ul li {
+    display:table-cell;
+}

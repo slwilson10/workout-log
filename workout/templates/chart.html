@@ -1,8 +1,15 @@
+<div id='chart-data' style='display:none;'></div>
 
-<ul id='workout-list'>
+<div id='total-workouts'>{{total_workouts}}</div>
+<div id='total-calories'>{{total_calories}}</div>
+<div id='total-duration'>{{total_duration}}</div>
+
+<ul id='workout-list' style='display:none;'>
 {% for w in workouts %}
     <li class='workout' date='{{w.date}}'
-        name='{{w.name}}' cal='{{w.calories}}'>{{w.date}}:{{w.name}}
+        name='{{w.name}}' cal='{{w.calories}}'
+        heartrate='{{w.heartrate}}' duration='{{w.hours}}:{{w.minutes}}:{{w.seconds}}'>
+        {{w.date}}:{{w.name}}
     </li>
 {% endfor %}
 </ul>
