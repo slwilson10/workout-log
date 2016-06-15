@@ -1,10 +1,6 @@
 $(document).ready(function() {
-    
-        
+     
      function ajaxCall(past_date_div, type){
-        console.log(past_date_div);
-        console.log(type);
-        
         if(past_date_div == null){
             var past_date = new Date()
             var day = past_date.getDate()-7;
@@ -14,7 +10,9 @@ $(document).ready(function() {
             var day = past_date.getDate();
             var past_date_str = past_date_div;
         }
-
+        if(type == null){
+            type = 'calories';
+        }
         var month = past_date.getMonth()+1;
         var year = past_date.getFullYear(); 
         var url = year+'/'+month+'/'+day+'/'
@@ -37,17 +35,37 @@ $(document).ready(function() {
     };
     
     ajaxCall();
+
+    function getTooltip(date, name, calories, heartrate, duration){
+        return '<style>#tooltip div div {display:inline-block;font-size:1.5em;}</style>'+
+                '<div id="tooltip" style="padding:10px;overflow:hidden;">'+
+                    '<div style="width:100%;margin-bottom:5%;">'+
+                        '<div style="margin-right:20px;">'+ name +'</div>'+
+                        '<div>'+ date +'</div>'+
+                    '</div>'+
+                    '<ul>'+
+                        '<li>'+ calories +' calories</li>'+
+                        '<li>'+ heartrate +' heartrate</li>'+
+                        '<li>'+ duration +' duration</li>'+
+                    '</ul>'+
+                '</div>';
+    };
     
     // Create and populate chart
-    google.charts.load('current', {packages: ['corechart', 'bar']});
+    google.charts.load('current', {packages: ['corechart']});
     google.charts.setOnLoadCallback(drawChart);
     function drawChart(type) {
         var data = new google.visualization.DataTable();
-        
-        data.addColumn('string', 'Date');
         var workouts = $('.workout');
         var workoutList = [];
         
+        data.addColumn('string', 'Date');
+        
+        
+        function getFullDateString(date){
+            return date[1]+' '+date[2]+', '+date[3];
+        };
+
         function getDateString(date){
             var dateString = date[0]
             if (workouts.length >= 9){
@@ -70,32 +88,43 @@ $(document).ready(function() {
 
 
         if(type == 'heartrate'){
+            var barColor = 'yellow';
             data.addColumn('number', 'Heartrate');
         }else if (type == 'duration'){
+            var barColor = 'blue'
             data.addColumn('number', 'Duration')
         }
         else{
+            var barColor = 'red'
             data.addColumn('number', 'Calories');
         }
 
         workouts.each(function(){
             var self = $(this);
-            var date = self.attr('date');
-            var duration = self.attr('duration');
-            date = new Date(date).toString().split(' ');
-            duration = duration.toString().split(':');
-            duration = parseInt(duration[0]*3600)+parseInt(duration[1]*60+parseInt(duration[2])); 
+            var name = self.attr('name').toString();
+            var date_str = self.attr('date'); 
+            date = new Date(date_str).toString().split(' ');
+            var dateFull = getFullDateString(date);
             var dateString = getDateString(date);
+            var heartrate = parseInt(self.attr('heartrate'));
+            var duration_str = self.attr('duration');
+            duration = duration_str.toString().split(':');
+            duration = parseInt(duration[0]*3600)+parseInt(duration[1]*60+parseInt(duration[2])); 
+            var calories = parseInt(self.attr('cal'));
+            
+            var tooltipHtml = getTooltip(dateFull, name, calories, heartrate, duration_str);
             
             if(type== 'heartrate'){
-                workout = [dateString,parseInt(self.attr('heartrate'))]
+                workout = [dateString, heartrate, tooltipHtml]
             }else if (type == 'duration'){
-                workout = [dateString,duration]
-            }else{workout = [dateString,parseInt(self.attr('cal'))]}
+                workout = [dateString, duration, tooltipHtml]
+            }else{workout = [dateString, calories, tooltipHtml]}
             workoutList.push(workout); 
         });
         
         workoutList.reverse();
+       
+        data.addColumn({'type': 'string', 'role': 'tooltip', 'p': {'html': true}}); 
         data.addRows(workoutList);
         
         var hTextLength = getHTextLength();
@@ -107,17 +136,8 @@ $(document).ready(function() {
             hAxis:{
                 showTextEvery: hTextLength,                
             },
-            bar:{
-            
-            },
-            annotations: {
-                alwaysOutside: true,
-                textStyle: {
-                    fontSize: 14,
-                    color: '#000',
-                    auraColor: 'none'
-                }
-            },
+            colors:[barColor],
+            tooltip: { isHtml: true },
             legend: {position: 'none'}
         };
 
