@@ -1,0 +1,11 @@
+<div id='list-date' year='{{list_year}}' month='{{list_month}}'></div>
+
+<ul id='list-workouts'>
+{% for w in workouts %}
+    <li class='list-workout' date='{{w.date}}'
+        name='{{w.name}}' cal='{{w.calories}}'
+        heartrate='{{w.heartrate}}' duration='{{w.hours}}:{{w.minutes}}:{{w.seconds}}'>
+        {{w.date}}:{{w.name}}
+    </li>
+{% endfor %}
+</ul>

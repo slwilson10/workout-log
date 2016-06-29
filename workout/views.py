@@ -32,7 +32,7 @@ class WorkoutForm(ModelForm):
 ## Returns list of days from current to past date
 def get_date_range(date_cur,date_past):
     date_range = []
-    
+
     while date_cur != date_past:
         date_range.append(date_cur)
         date_cur = date_cur+relativedelta(days=-1)
@@ -40,24 +40,24 @@ def get_date_range(date_cur,date_past):
     return date_range
 
 
-def listify_workout_objs(workout_objs): 
-    workouts = [] 
+def listify_workout_objs(workout_objs):
+    workouts = []
     for w in workout_objs:
         workout = {
             'date':w.date.strftime('%Y %m %d'),'name':w.name,
-            'calories':w.calories,'heartrate':w.heartrate, 
-            'peak':w.peak, 'cardio':w.cardio,'fatburn':w.fatburn, 
+            'calories':w.calories,'heartrate':w.heartrate,
+            'peak':w.peak, 'cardio':w.cardio,'fatburn':w.fatburn,
             'hours':w.hours, 'minutes':w.minutes,
             'seconds':w.seconds, 'distance':w.distance}
         workouts.append(workout)
     return workouts
 
 
-## Turns workout objects into workout lists of dicts   
+## Turns workout objects into workout lists of dicts
 def get_workouts(date_range, workout_objs):
     workouts = []
     workouts_list = listify_workout_objs(workout_objs)
-    
+
     ## Loops through date_range, adds empty workouts for dates not found in workout_list
     for d in date_range:
         workout =  next((item for item in workouts_list if item['date'] == d.strftime('%Y %m %d')), None)
@@ -68,7 +68,7 @@ def get_workouts(date_range, workout_objs):
                     'date':d.strftime('%Y %m %d'),'name':' ','calories':0,
                     'heartrate':0, 'peak':0, 'cardio':0,
                     'fatburn':0, 'hours':0, 'minutes':0,
-                    'seconds':0, 'distance':0}) 
+                    'seconds':0, 'distance':0})
     return workouts
 
 def get_total(workouts, field):
@@ -82,8 +82,8 @@ def get_total(workouts, field):
             time = timedelta(0, (hours*3600+minutes*60+seconds))
             times.append(time)
         for t in times:
-            total = total+t   
-        return total       
+            total = total+t
+        return total
     else:
         total = 0
         for w in workouts:
@@ -118,13 +118,13 @@ def chart_data(request, year=year_default, month=month_default,
                     day=day_default):
     date_cur = date.today()
     date_past = date(int(year), int(month), int(day))
-    date_range = get_date_range(date_cur,date_past) 
+    date_range = get_date_range(date_cur,date_past)
     workout_objs = Workout.objects.filter(date__gte=date_past).order_by('-date')
     if len(date_range) > 8:
         workouts = listify_workout_objs(workout_objs)
     else:
         workouts = get_workouts(date_range, workout_objs)
-    
+
     ## Get Totals for each field
     total_workouts = len(workout_objs)
     total_calories = get_total(workouts, 'calories')
@@ -134,15 +134,33 @@ def chart_data(request, year=year_default, month=month_default,
     form = WorkoutForm()
     WorkoutFormset = modelformset_factory(Workout, form=WorkoutForm,
                          can_delete=True, can_order=True, extra=0)
-    formset = WorkoutFormset(queryset=workout_objs.order_by('-date'))   
-    
+    formset = WorkoutFormset(queryset=workout_objs.order_by('-date'))
+
     context = {'workouts': workouts, 'formset': formset,
                 'date_cur': date_cur, 'date_past': date_past,
                 'total_calories': total_calories, 'total_workouts': total_workouts,
                 'total_duration': total_duration}
- 
+
     if request.is_ajax():
         return  render(request, 'chart.html', context)
+    return render(request, 'main.html', context)
+
+## List Data
+def list_data(request, year=date.today().year, month=date.today().month):
+    date_cur = date.today()
+    workouts = Workout.objects.filter(date__year=year, date__month=month).order_by('-date')
+
+    ## Create formset from form class
+    form = WorkoutForm()
+    WorkoutFormset = modelformset_factory(Workout, form=WorkoutForm,
+                         can_delete=True, can_order=True, extra=0)
+    formset = WorkoutFormset(queryset=workouts.order_by('-date'))
+
+    context = {'workouts': workouts, 'formset': formset,
+                'list_month': month, 'list_year': year}
+
+    if request.is_ajax():
+        return  render(request, 'list.html', context)
     return render(request, 'main.html', context)
 
 ## Delete workout

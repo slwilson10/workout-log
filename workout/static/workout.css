@@ -97,8 +97,25 @@ body{
     border: none;
 }
 
-#chart-date-buttons {
-    width:50%;
+#chart-date-container,
+#list-date-container{
+    width:100%;
+    display:table;
+}
+
+#chart-date-range, 
+#list-date-buttons{
+    width: 50%;
+    display:table-cell;
+    text-align:right;
+    vertical-align: middle;
+}
+
+#chart-date-buttons, 
+#list-date-container h2{
+    width: 50%;
+    display:table-cell;
+    vertical-align: middle;
 }
 
 .chart-date-button,
@@ -119,9 +136,7 @@ body{
     font-size: 1.5em;
     padding: 0.2% 1%;
 }
-
-
-#chart-date-buttons, #chart-date-range, 
+ 
 #chart-date-range div, .chart-date-range-group p{
     display: inline-block;
 }
@@ -152,4 +167,8 @@ body{
 
 #totals-stats ul li {
     display:table-cell;
+}
+
+#list-date-container h2{
+    font-size: 2em;
 }

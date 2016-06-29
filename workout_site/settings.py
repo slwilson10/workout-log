@@ -99,7 +99,7 @@ WSGI_APPLICATION = 'workout_site.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'new_workout_db',
+        'NAME': 'workoutlog_db',
         'USER': 'vagrant',
         'PASSWORD': 'Foreshadow3821',
         'HOST': 'localhost',

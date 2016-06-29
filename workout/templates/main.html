@@ -4,20 +4,22 @@
     <div id='content'>
         <section>
             <header>
-                <div id='chart-date-buttons'>
-                    <button type='button' 
-                        class='chart-date-button chart-date-button-active' date='{{past_week}}'>week</button>
-                    <button type='button' class='chart-date-button' date='{{past_month}}'>month</button>
-                    <button type='button' class='chart-date-button' date='{{past_year}}'>year</button>
-                </div>
-                <div id='chart-date-range' style='float:right;width:30%;'>    
-                    <div class='chart-date-range-group'><<</div>                    
+                <div id ='chart-date-container'>
+                    <div id='chart-date-buttons'>
+                        <button type='button' 
+                            class='chart-date-button chart-date-button-active' date='{{past_week}}'>week</button>
+                        <button type='button' class='chart-date-button' date='{{past_month}}'>month</button>
+                        <button type='button' class='chart-date-button' date='{{past_year}}'>year</button>
+                    </div>
+                    <div id='chart-date-range'> 
+                        <div class='chart-date-range-group'><<</div>                    
                         <div class='chart-date-range-group'> 
                             <p id='date-past'>{{date_past}}</p>
                             <p>&nbsp - &nbsp</p>
                             <p>{{date_cur}}</p>
                         </div>
-                    <div class='chart-date-range-group'>>></div>
+                        <div class='chart-date-range-group'>>></div>
+                    </div>
                 </div>
             </header>
             <article>
@@ -32,29 +34,53 @@
                     </div>
                 </header>
                 <div id='workout-chart'></div>
-                {% include 'chart.html'%}
+                <div id='chart-data'>
+                    {% include 'chart.html'%}
+                </div>
             </article>
             <footer>
                 <div id='totals'>
-                <div id='totals-list'>
-                <h2>Totals:</h2>
-                <div id='totals-stats'>    
-                    <ul>
-                        <li>
-                            <span id='total-workouts-str'>{{total_workouts}}</span>
-                            <span>workouts</span>
-                        <li>
-                            <span id='total-calories-str'>{{total_calories}}</span>
-                            <span>calories</span>
-                        </li>
-                        <li>
-                            <span id='total-duration-str'>{{total_duration}}</span>
-                            <span>duration</span>
-                        </li>
-                    </ul>
+                    <div id='totals-list'>
+                        <h2>Totals:</h2>
+                        <div id='totals-stats'>    
+                            <ul>
+                                <li>
+                                    <span id='total-workouts-str'>{{total_workouts}}</span>
+                                    <span>workouts</span>
+                                <li>
+                                    <span id='total-calories-str'>{{total_calories}}</span>
+                                    <span>calories</span>
+                                </li>
+                                <li>
+                                    <span id='total-duration-str'>{{total_duration}}</span>
+                                    <span>duration</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
+            </footer>
+        </section>
+        <section>
+            <header>
+                <div id ='list-date-container'>
+                    <h2>Workout History</h2>
+                    <div id='list-date-buttons'>
+                        <button type='button' class='chart-date-button'>
+                            <span id='list-year'></span>
+                        </button>
+                        <button type='button' class='chart-date-button'>
+                            <span id='list-month'></span>
+                        </button>
+                    </div>
                 </div>
+            </header>
+            <article>
+                <div id='list-data'>
+                    {% include 'list.html' %}
                 </div>
+            </article>
+            <footer>
             </footer>
         </section>
     </div>

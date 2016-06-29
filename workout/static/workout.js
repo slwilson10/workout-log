@@ -1,6 +1,6 @@
 $(document).ready(function() {
      
-     function ajaxCall(past_date_div, type){
+     function chartAjaxCall(past_date_div, type){
         if(past_date_div == null){
             var past_date = new Date()
             var day = past_date.getDate()-7;
@@ -27,14 +27,34 @@ $(document).ready(function() {
                 $('#total-calories-str').text(total_calories);               
                 $('#total-duration-str').text(total_duration);
                 $('#date-past').html(past_date_str);
-                $('#workout-list').html(data);
                 drawChart(type);
             },
             error : function() {console.log('Fail!')}    
         });
     };
-    
-    ajaxCall();
+
+    function listAjaxCall(list_year, list_month){
+        var list_date = new Date()
+        var year = list_date.getFullYear();
+        var month = list_date.getMonth()+1;
+        var monthStr = list_date.toString().split(' ')[1];
+ 
+        var url = year+'/'+month+'/'
+        $.ajax({
+            url : url,
+            success : function(data){
+                var data_text = $('#list-data').html(data);
+                var listYear = data_text.find('#list-date').attr('year');
+                var listMonth= data_text.find('#list-date').attr('month');
+                $('#list-year').text(year);
+                $('#list-month').text(monthStr);
+            },
+            error : function() {console.log('Fail!')}    
+        });
+    };
+
+    chartAjaxCall();
+    listAjaxCall();
 
     function getTooltip(date, name, calories, heartrate, duration){
         return '<style>#tooltip div div {display:inline-block;font-size:1.5em;}</style>'+
@@ -56,7 +76,7 @@ $(document).ready(function() {
     google.charts.setOnLoadCallback(drawChart);
     function drawChart(type) {
         var data = new google.visualization.DataTable();
-        var workouts = $('.workout');
+        var workouts = $('.chart-workout');
         var workoutList = [];
         
         data.addColumn('string', 'Date');
@@ -151,7 +171,7 @@ $(document).ready(function() {
         $(this).addClass('chart-date-button-active');
         var past_date_div= $(this).attr('date');
         var stat = $('.chart-stat-button-active').attr('stat');
-        ajaxCall(past_date_div, stat);
+        chartAjaxCall(past_date_div, stat);
         return false;
     });
 
@@ -160,7 +180,7 @@ $(document).ready(function() {
         $(this).addClass('chart-stat-button-active');
         var stat = $(this).attr('stat');
         var past_date_div = $('.chart-date-button-active').attr('date');
-        ajaxCall(past_date_div, stat);
+        chartAjaxCall(past_date_div, stat);
         return false;
     });
 
