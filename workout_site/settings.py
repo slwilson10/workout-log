@@ -35,8 +35,8 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    #'hello'
-    'workout'
+    #'hello',
+    'workout',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -165,3 +165,6 @@ STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 #    from .local_settings import *
 #except ImportError:
 #    pass
+
+COMPRESS_ENABLED = os.environ.get('COMPRESS_ENABLED', False)
+AUTH_USER_MODEL = 'authentication.account'

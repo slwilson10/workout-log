@@ -2,82 +2,61 @@
 {% block content %}
 <div id='container'>
     <div id='content'>
+        <div id='data'>
+            {% include 'data.html'%}
+        </div>
         <section>
             <header>
-                <div id ='chart-date-container'>
-                    <div id='chart-date-buttons'>
+                <div id ='date-container'>
+                    <div id='date-buttons'>
                         <button type='button' 
-                            class='chart-date-button chart-date-button-active' date='{{past_week}}'>week</button>
-                        <button type='button' class='chart-date-button' date='{{past_month}}'>month</button>
-                        <button type='button' class='chart-date-button' date='{{past_year}}'>year</button>
+                            class='date-button date-button-active' start-date=''>week</button>
+                        <button type='button' class='date-button' start-date=''>month</button>
+                        <button type='button' class='date-button' start-date=''>year</button>
                     </div>
-                    <div id='chart-date-range'> 
-                        <div class='chart-date-range-group'><<</div>                    
-                        <div class='chart-date-range-group'> 
-                            <p id='date-past'>{{date_past}}</p>
+                    <div id='date-range'> 
+                        <div class='date-range-group'><<</div>                    
+                        <div class='date-range-group'> 
+                            <p id='date-range-start'></p>
                             <p>&nbsp - &nbsp</p>
-                            <p>{{date_cur}}</p>
+                            <p id='date-range-end'></p>
                         </div>
-                        <div class='chart-date-range-group'>>></div>
+                        <div class='date-range-group'>>></div>
+                    </div>
+                    <div id='date-form-container'>
+                        <form id='date-form' action='.'>
+                            <input type='text' name='start-date'>
+                            <input type='text' name='end-date'>
+                            <input type='submit' value='Go'>
+                        </form>
                     </div>
                 </div>
             </header>
             <article>
                 <header>
-                    <div id='chart-type-buttons'>
-                        <button type='button' class='chart-stat-button chart-stat-button-active' stat='calories'>
+                    <div id='field-buttons'>
+                        <button type='button' class='field-button field-button-active' field='calories'>
                             calories</button>
-                        <button type='button' class='chart-stat-button' stat='heartrate'>
+                        <button type='button' class='field-button' field='heartrate'>
                             heartrate</button>
-                        <button type='button' class='chart-stat-button' stat='duration'>
+                        <button type='button' class='field-button' field='duration'>
                             duration</button>
                     </div>
                 </header>
-                <div id='workout-chart'></div>
-                <div id='chart-data'>
-                    {% include 'chart.html'%}
-                </div>
+                <div id='chart'></div>
             </article>
             <footer>
                 <div id='totals'>
-                    <div id='totals-list'>
-                        <h2>Totals:</h2>
-                        <div id='totals-stats'>    
-                            <ul>
-                                <li>
-                                    <span id='total-workouts-str'>{{total_workouts}}</span>
-                                    <span>workouts</span>
-                                <li>
-                                    <span id='total-calories-str'>{{total_calories}}</span>
-                                    <span>calories</span>
-                                </li>
-                                <li>
-                                    <span id='total-duration-str'>{{total_duration}}</span>
-                                    <span>duration</span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
                 </div>
             </footer>
         </section>
         <section>
             <header>
-                <div id ='list-date-container'>
-                    <h2>Workout History</h2>
-                    <div id='list-date-buttons'>
-                        <button type='button' class='chart-date-button'>
-                            <span id='list-year'></span>
-                        </button>
-                        <button type='button' class='chart-date-button'>
-                            <span id='list-month'></span>
-                        </button>
-                    </div>
-                </div>
+                <h2>Workout History</h2>
             </header>
-            <article>
-                <div id='list-data'>
-                    {% include 'list.html' %}
+            <article> 
+                <div id='history-list'>
+                    <ul></ul>
                 </div>
             </article>
             <footer>

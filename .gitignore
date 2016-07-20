@@ -37,6 +37,7 @@ local_settings.py
 ehthumbs.db
 Thumbs.db
 
+node_modules/
 
 
 

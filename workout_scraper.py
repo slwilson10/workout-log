@@ -13,6 +13,7 @@ from time import localtime, strftime
 import datetime
 from datetime import date, datetime, time, timedelta
 import os
+
 import sys
 from decimal import Decimal
 from pyvirtualdisplay import Display
@@ -168,7 +169,6 @@ if __name__ == '__main__':
     password = 'Foreshadow3821'
 
     ## Start brower and login
-
     browser = webdriver.Chrome()
 
 
